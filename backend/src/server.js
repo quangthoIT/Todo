@@ -1,21 +1,19 @@
 import express from "express";
 import dotenv from "dotenv";
 import { connectDB } from "./config/db.js";
+import userRouter from "./routes/userRoute.js";
 
-// Đọc biến môi trường
-dotenv.config();
+dotenv.config(); // Đọc biến môi trường
 
-// Cấu hình cổng
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5001; // Cấu hình cổng
 
-// Khởi tạo app
-const app = express();
+const app = express(); // Khởi tạo app
 
-// Middleware để phân tích JSON
-app.use(express.json());
+app.use(express.json()); // Middleware để phân tích JSON
 
-// Kết nối cơ sở dữ liệu
-connectDB();
+connectDB(); // Kết nối cơ sở dữ liệu
+
+app.use("/api/user", userRouter); // Route người dùng
 
 // Định nghĩa route cơ bản
 app.get("/", (req, res) => {
