@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import { connectDB } from "./config/db.js";
 import userRouter from "./routes/userRoute.js";
+import taskRouter from "./routes/taskRoute.js";
 
 dotenv.config(); // Đọc biến môi trường
 
@@ -13,8 +14,9 @@ app.use(express.json()); // Middleware để phân tích JSON
 
 connectDB(); // Kết nối cơ sở dữ liệu
 
+// Routes
 app.use("/api/user", userRouter); // Route người dùng
-
+app.use("/api/tasks", taskRouter); // Route tasks
 // Định nghĩa route cơ bản
 app.get("/", (req, res) => {
   res.send("API is running...");

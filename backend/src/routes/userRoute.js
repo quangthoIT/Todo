@@ -16,7 +16,7 @@ userRouter.post("/login", loginUser);
 userRouter.post("/register", registerUser);
 
 // Các route cần xác thực
-userRouter.get("/me", authMiddleware, getUserProfile);
+userRouter.get("/profile", authMiddleware, getUserProfile);
 userRouter.put("/profile", authMiddleware, updateUserProfile);
 userRouter.put("/password", authMiddleware, changeUserPassword);
 
