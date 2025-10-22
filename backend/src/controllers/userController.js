@@ -141,7 +141,7 @@ export const getUserProfile = async (req, res) => {
 export const updateUserProfile = async (req, res) => {
   const { userName, email } = req.body;
   // Kiểm tra dữ liệu đầu vào
-  if (!userName || !email || validator.isEmail(email)) {
+  if (!userName || !email || !validator.isEmail(email)) {
     return res
       .status(400)
       .json({ success: false, message: "Thông tin không hợp lệ." });
@@ -162,7 +162,7 @@ export const updateUserProfile = async (req, res) => {
     }
 
     // Cập nhật thông tin người dùng
-    const user = await userModel.findById(
+    const user = await userModel.findByIdAndUpdate(
       req.user.id,
       { userName, email },
       { new: true, runValidators: true, select: "userName email" }
@@ -210,7 +210,35 @@ export const changeUserPassword = async (req, res) => {
       message: "Mật khẩu đã được thay đổi thành công.",
     });
   } catch (error) {
-    console.log("Lỗi thay đổi mật khẩu:", error);
+    console.log("Lỗi khi thay đổi mật khẩu:", error);
     res.status(500).json({ success: false, message: "Lỗi máy chủ." });
+  }
+};
+
+// ----- XÓA TÀI KHOẢN -----
+export const deleteUserAccount = async (req, res) => {
+  try {
+    // Lấy ID người dùng từ req.user
+    const userId = req.user._id;
+    // Xóa người dùng khỏi cơ sở dữ liệu
+    const deletedUser = await userModel.findByIdAndDelete(userId);
+    // Kiểm tra nếu người dùng không tồn tại
+    if (!deletedUser) {
+      return res.status(404).json({
+        success: false,
+        message: "Không tìm thấy tài khoản để xóa.",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Tài khoản đã được xóa thành công.",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Lỗi server khi xóa tài khoản.",
+      error,
+    });
   }
 };

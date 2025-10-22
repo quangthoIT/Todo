@@ -5,8 +5,9 @@ import {
   loginUser,
   updateUserProfile,
   changeUserPassword,
+  deleteUserAccount,
 } from "../controllers/userController.js";
-import {authMiddleware} from "../middleware/auth.js";
+import { authMiddleware } from "../middleware/auth.js";
 
 // Tạo router cho người dùng
 const userRouter = express.Router();
@@ -19,5 +20,6 @@ userRouter.post("/register", registerUser);
 userRouter.get("/profile", authMiddleware, getUserProfile);
 userRouter.put("/profile", authMiddleware, updateUserProfile);
 userRouter.put("/password", authMiddleware, changeUserPassword);
+userRouter.delete("/profile", authMiddleware, deleteUserAccount);
 
 export default userRouter;
