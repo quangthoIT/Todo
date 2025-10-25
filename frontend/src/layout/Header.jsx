@@ -13,21 +13,25 @@ import {
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
 
-const Header = ({ currentUser, onLogout }) => {
-  const [theme, setTheme] = useState("light");
+const Header = () => {
+  const [theme, setTheme] = useState("light"); // State cho theme
   const navigate = useNavigate();
 
-  const menuref = useRef(null);
+  const { user: currentUser, logout } = useAuth(); // Destructure User và Logout
 
-  const [menuOpen, setMenuOpen] = useState(false);
+  const menuref = useRef(null); // Ref cho menu dropdown
+  const [menuOpen, setMenuOpen] = useState(false); // State cho menu dropdown
+
   const handleMenuToggle = () => {
     setMenuOpen((prev) => !prev);
   };
 
   const handleLogout = () => {
     setMenuOpen(false);
-    onLogout();
+    logout();
+    navigate("/login");
   };
 
   return (
@@ -36,7 +40,7 @@ const Header = ({ currentUser, onLogout }) => {
         {/* Logo */}
         <div
           className="flex items-center gap-2 sm:gap-3 flex-shrink-0 group cursor-pointer"
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/dashboard")}
         >
           {/* Icon */}
           <div className="relative w-10 h-10 bg-blue-600 flex items-center justify-center rounded-xl">
@@ -49,18 +53,15 @@ const Header = ({ currentUser, onLogout }) => {
         </div>
 
         {/* Search */}
-        <div className="flex-1 max-w-xl relative mx-6">
-          {/* Icon tìm kiếm */}
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
-          {/* Ô input có padding-left để chừa chỗ cho icon */}
+        <div className="flex-1 max-w-xl mx-6">
           <Input
             type="search"
+            icon={<Search size={20} />}
             placeholder="Search..."
-            className="pl-10 w-full border border-gray-300"
           />
         </div>
 
-        {/* Theme - Notification - Avatar */}
+        {/* Theme - Notification - Infomation */}
         <div className="flex items-center justify-between gap-1 sm:gap-3">
           {/* Chuyển đổi giao diện sáng/tối */}
           <button
@@ -85,6 +86,7 @@ const Header = ({ currentUser, onLogout }) => {
               onClick={handleMenuToggle}
               className="flex items-center gap-2 px-3 py-1 rounded-full cursor-pointer border border-gray-100 hover:border-gray-300 hover:bg-blue-50 transition-all"
             >
+              {/* Avatar */}
               <div className="relative">
                 {currentUser?.avatar ? (
                   <img
@@ -94,18 +96,18 @@ const Header = ({ currentUser, onLogout }) => {
                   />
                 ) : (
                   <div className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-600 text-white font-semibold shadow-sm">
-                    {currentUser?.userName?.[0]?.toUpperCase() || "U"}
+                    {currentUser?.user?.userName?.[0]?.toUpperCase() || "U"}
                   </div>
                 )}
                 <div className="absolute bottom-0 right-0 w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
               </div>
-
+              {/* Thông tin người dùng */}
               <div className="text-left hiden md:block">
                 <p className="text-sm font-medium text-gray-800">
-                  {currentUser?.userName}
+                  {currentUser?.user?.userName}
                 </p>
                 <p className="text-xs text-gray-600 font-normal">
-                  {currentUser?.email}
+                  {currentUser?.user?.email}
                 </p>
               </div>
 
@@ -116,8 +118,10 @@ const Header = ({ currentUser, onLogout }) => {
               />
             </button>
 
+            {/* Menu dropdown */}
             {menuOpen && (
               <ul className="absolute top-14 right-0 w-56 bg-gray-50 rounded-xl shadow-md border border-gray-200 z-50 overflow-hidden animate-fadeIn">
+                {/* Profile */}
                 <li className="p-2">
                   <button
                     onClick={() => {
@@ -130,7 +134,7 @@ const Header = ({ currentUser, onLogout }) => {
                     Profile Setting
                   </button>
                 </li>
-
+                {/* Logout */}
                 <li className="p-2">
                   <button
                     onClick={handleLogout}

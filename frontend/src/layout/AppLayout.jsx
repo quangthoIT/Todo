@@ -3,10 +3,10 @@ import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 
-const AppLayout = ({ currentUser, onLogout }) => {
+const AppLayout = () => {
   return (
     <div className="flex flex-col h-screen bg-gray-50">
-      <Header currentUser={currentUser} onLogout={onLogout} />
+      <Header/>
 
       <div className="flex flex-1">
         <aside className="w-56">
