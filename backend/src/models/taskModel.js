@@ -36,7 +36,7 @@ const taskSchema = new mongoose.Schema(
     },
     completedAt: {
       type: Date,
-      default: Date.now,
+      default: null
     },
   },
   { timestamps: true }
