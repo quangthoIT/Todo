@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
-import { Lock, Mail, User, UserPlus } from "lucide-react";
+import { Loader2, Lock, Mail, User, UserPlus } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { toast } from "sonner";
@@ -105,9 +105,22 @@ const Register = () => {
 
             <button
               type="submit"
-              className="h-10 bg-blue-600 w-full text-white font-semibold rounded-lg mt-2 hover:bg-blue-700 cursor-pointer"
+              disabled={loading}
+              className={`h-10 w-full font-semibold rounded-lg mt-2 flex items-center justify-center transition ${
+                loading
+                  ? "bg-blue-400 text-white cursor-not-allowed"
+                  : "bg-blue-600 hover:bg-blue-700 text-white cursor-pointer"
+              }`}
             >
-              {loading ? "Loading..." : "Sign Up"}
+              {loading ? (
+                // Hiển thị icon loading khi đang gửi request
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                  Signing up...
+                </>
+              ) : (
+                "Sign Up"
+              )}
             </button>
           </form>
 
