@@ -5,14 +5,25 @@ import AppLayout from "./layout/AppLayout";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider, useAuth } from "./context/AuthContext";
+import NotFound from "./pages/NotFound";
 
+// --- Chặn người chưa login ---
 const ProtectedRoute = ({ children }) => {
-  const { currentUser } = useAuth();
+  const { user, loading } = useAuth();
 
-  if (!currentUser) {
-    return <Navigate to="/login" replace />;
-  }
+  if (loading) return null;
+  if (!user) return <Navigate to="/login" replace />;
+
+  return children;
+};
+
+// --- Chặn người đã login vào login/register ---
+const RequireNoAuth = ({ children }) => {
+  const { user, loading } = useAuth();
+
+  if (loading) return null;
+  if (user) return <Navigate to="/dashboard" replace />;
 
   return children;
 };
@@ -26,8 +37,22 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Navigate to="/login" replace />} />
 
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route
+              path="/login"
+              element={
+                <RequireNoAuth>
+                  <Login />
+                </RequireNoAuth>
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                <RequireNoAuth>
+                  <Register />
+                </RequireNoAuth>
+              }
+            />
             <Route
               path="/dashboard"
               element={
@@ -38,6 +63,8 @@ const App = () => {
             >
               <Route index element={<Dashboard />} />
             </Route>
+
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>
       </BrowserRouter>

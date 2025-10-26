@@ -9,6 +9,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null); // Thông tin User
   const [token, setToken] = useState(localStorage.getItem("token") || null); // Token
+  const [loading, setLoading] = useState(true); // Kiểm tra khi load trang
 
   // Gọi API đăng nhập
   const signIn = async (email, password) => {
@@ -57,7 +58,7 @@ export const AuthProvider = ({ children }) => {
     toast.success("Logout successfully!");
   };
 
-  // Khi load trang, lấy lại thông tin user nếu có token
+  // Load user khi refresh page
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -66,13 +67,16 @@ export const AuthProvider = ({ children }) => {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((res) => setUser(res.data))
-        .catch(() => logout());
+        .catch(() => logout())
+        .finally(() => setLoading(false));
+    } else {
+      setLoading(false);
     }
-  }, [token]);
+  }, []);
 
   // Trả về thống tin người dùng, chức năng
   return (
-    <AuthContext.Provider value={{ user, signIn, signUp, logout }}>
+    <AuthContext.Provider value={{ user, signIn, signUp, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );
