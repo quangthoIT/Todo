@@ -68,9 +68,9 @@ export const AuthProvider = ({ children }) => {
         })
         .then((res) => setUser(res.data))
         .catch(() => logout())
-        .finally(() => setLoading(false));
+        .finally(() => setTimeout(() => setLoading(false), 500));
     } else {
-      setLoading(false);
+      setTimeout(() => setLoading(false), 500);
     }
   }, []);
 

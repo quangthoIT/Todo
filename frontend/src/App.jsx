@@ -7,26 +7,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import NotFound from "./pages/NotFound";
-
-// --- Chặn người chưa login ---
-const ProtectedRoute = ({ children }) => {
-  const { user, loading } = useAuth();
-
-  if (loading) return null;
-  if (!user) return <Navigate to="/login" replace />;
-
-  return children;
-};
-
-// --- Chặn người đã login vào login/register ---
-const RequireNoAuth = ({ children }) => {
-  const { user, loading } = useAuth();
-
-  if (loading) return null;
-  if (user) return <Navigate to="/dashboard" replace />;
-
-  return children;
-};
+import RequireNoAuth from "./components/RequireNoAuth";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
   return (
