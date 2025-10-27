@@ -25,11 +25,11 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="flex flex-col h-full bg-gray-50 border-r border-gray-200 shadow-sm p-4">
+    <div className="flex flex-col h-full bg-white border-r border-gray-200 shadow-sm p-4">
       {/* New Task */}
       <div className="p-2 mt-4">
         <button
-          className="hidden md:flex w-full items-center justify-center gap-2 p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md cursor-pointer"
+          className="hidden md:flex w-full items-center justify-center gap-2 py-3 px-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md cursor-pointer"
           onClick={handleNewTask}
         >
           {" "}

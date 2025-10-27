@@ -16,7 +16,7 @@ const Header = ({ onMenuClick }) => {
   const navigate = useNavigate();
 
   return (
-    <header className="sticky top-0 z-50 bg-gray-50 shadow-sm border-b border-gray-200 p-4 md:px-6 md:py-3">
+    <header className="sticky top-0 z-50 bg-white shadow-sm border-b border-gray-200 p-4 md:px-6 md:py-3">
       <div className="flex items-center justify-around max-w-7xl mx-auto">
         {/* Logo */}
         <div

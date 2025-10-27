@@ -7,7 +7,7 @@ const AppLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50">
+    <div className="flex flex-col h-screen">
       <Header onMenuClick={() => setSidebarOpen((prev) => !prev)} />
 
       <div className="flex flex-1 overflow-hidden">
@@ -15,7 +15,7 @@ const AppLayout = () => {
           className={`
             fixed inset-y-0 left-0 z-40 w-64 bg-white border-r border-gray-200 shadow-lg
             transform transition-transform duration-300 ease-in-out
-            md:relative md:translate-x-0 md:w-56
+            md:relative md:translate-x-0 md:w-64
             ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
           `}
         >
@@ -29,7 +29,7 @@ const AppLayout = () => {
           ></div>
         )}
 
-        <main className="flex-1 p-4 overflow-y-auto">
+        <main className="flex-1 p-4 md:p-8 overflow-y-auto bg-gray-50">
           <Outlet />
         </main>
       </div>

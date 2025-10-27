@@ -34,10 +34,16 @@ const UserMenu = ({ isMobile = false }) => {
             <img
               src={currentUser.avatar}
               alt="Avatar"
-              className="w-10 h-10 rounded-full shadow-sm"
+              className={`${
+                isMobile ? "w-12 h-12" : "w-10 h-10"
+              } rounded-full shadow-sm `}
             />
           ) : (
-            <div className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-600 text-white font-semibold shadow-sm">
+            <div
+              className={`${
+                isMobile ? "w-12 h-12" : "w-10 h-10"
+              } flex items-center justify-center text-xl md:text-lg rounded-full bg-blue-600 text-white font-semibold shadow-sm`}
+            >
               {currentUser?.userName?.[0]?.toUpperCase() || "U"}
             </div>
           )}
@@ -68,7 +74,7 @@ const UserMenu = ({ isMobile = false }) => {
           className={`absolute ${
             isMobile
               ? "static mt-2"
-              : "top-16 left-0 w-56 bg-gray-50 rounded-xl shadow-md border border-gray-200"
+              : "top-16 left-0 w-56 bg-white rounded-xl shadow-md border border-gray-200"
           } overflow-hidden animate-fadeIn`}
         >
           <li className="md:p-2">
