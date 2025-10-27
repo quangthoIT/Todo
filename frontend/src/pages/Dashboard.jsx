@@ -5,8 +5,10 @@ import React from "react";
 const Dashboard = () => {
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Dashboard</h1>
+      <div className="mb-6">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+          Dashboard
+        </h1>
         <p className="text-gray-600">
           Welcome back! Here's what's happening today.
         </p>

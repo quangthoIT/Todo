@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { ChevronDown, LogOut, Settings } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 
 const UserMenu = ({ isMobile = false }) => {
   const { user: currentUser, logout } = useAuth();
@@ -74,7 +74,7 @@ const UserMenu = ({ isMobile = false }) => {
           className={`absolute ${
             isMobile
               ? "static mt-2"
-              : "top-16 left-0 w-56 bg-white rounded-xl shadow-md border border-gray-200"
+              : "top-16 left-0 w-48 bg-white rounded-xl shadow-md border border-gray-200"
           } overflow-hidden animate-fadeIn`}
         >
           <li className="md:p-2">
