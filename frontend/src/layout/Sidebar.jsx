@@ -7,6 +7,7 @@ import {
   Plus,
 } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import UserMenu from "@/components/UserMenu";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -59,6 +60,11 @@ const Sidebar = () => {
           );
         })}
       </nav>
+
+      {/* User Menu Mobile */}
+      <div className="mt-auto pt-4 border-t border-gray-300 md:hidden">
+        <UserMenu isMobile />
+      </div>
     </div>
   );
 };
