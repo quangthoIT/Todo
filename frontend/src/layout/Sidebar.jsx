@@ -7,7 +7,7 @@ import {
   Plus,
 } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import UserMenu from "@/components/UserMenu";
+import UserMenu from "../components/UserMenu";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -29,7 +29,7 @@ const Sidebar = () => {
       {/* New Task */}
       <div className="p-2 mt-4">
         <button
-          className="hidden md:flex w-full items-center justify-center gap-2 p-2 bg-blue-600 text-white rounded-md"
+          className="hidden md:flex w-full items-center justify-center gap-2 p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md cursor-pointer"
           onClick={handleNewTask}
         >
           {" "}
@@ -50,7 +50,7 @@ const Sidebar = () => {
                 transition-colors duration-150
                 ${
                   isActive
-                    ? "bg-blue-50 text-blue-700 font-medium"
+                    ? "bg-blue-50 text-blue-600 font-medium"
                     : "text-gray-700 hover:bg-gray-100"
                 }`}
             >

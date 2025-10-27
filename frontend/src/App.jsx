@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { Toaster, toast } from "sonner";
 import AppLayout from "./layout/AppLayout";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import { AuthProvider, useAuth } from "./context/AuthContext";
+import { AuthProvider } from "./context/AuthContext";
 import NotFound from "./pages/NotFound";
 import RequireNoAuth from "./components/RequireNoAuth";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Task from "./pages/Tasks";
+import Calendar from "./pages/Calender";
+import Report from "./pages/Reports";
 
 const App = () => {
   return (
@@ -18,7 +21,6 @@ const App = () => {
         <AuthProvider>
           <Routes>
             <Route path="/" element={<Navigate to="/login" replace />} />
-
             <Route
               path="/login"
               element={
@@ -35,15 +37,19 @@ const App = () => {
                 </RequireNoAuth>
               }
             />
+
             <Route
-              path="/dashboard"
+              path="/"
               element={
                 <ProtectedRoute>
                   <AppLayout />
                 </ProtectedRoute>
               }
             >
-              <Route index element={<Dashboard />} />
+              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="tasks" element={<Task />} />
+              <Route path="calendar" element={<Calendar />} />
+              <Route path="reports" element={<Report />} />
             </Route>
 
             <Route path="*" element={<NotFound />} />
