@@ -1,21 +1,20 @@
 import React, { useRef, useState } from "react";
 import {
-  Bell,
   BellIcon,
   ChevronDown,
   LogOut,
+  Menu,
   Moon,
   Search,
   Settings,
   SquareCheckBig,
   Sun,
-  User,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 
-const Header = () => {
+const Header = ({ onMenuClick }) => {
   const [theme, setTheme] = useState("light"); // State cho theme
   const navigate = useNavigate();
 
@@ -34,11 +33,11 @@ const Header = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-gray-50 shadow-sm border-b border-gray-200 px-6 py-4">
+    <header className="sticky top-0 z-50 bg-gray-50 shadow-sm border-b border-gray-200 px-4 py-2 md:px-6 md:py-3">
       <div className="flex items-center justify-around max-w-7xl mx-auto">
         {/* Logo */}
         <div
-          className="flex items-center gap-2 sm:gap-3 flex-shrink-0 group cursor-pointer"
+          className="flex items-center gap-1 md:gap-3 flex-shrink-0 group cursor-pointer"
           onClick={() => navigate("/dashboard")}
         >
           {/* Icon */}
@@ -47,7 +46,9 @@ const Header = () => {
           </div>
           {/* Brand */}
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Todo</h1>
+            <h1 className="hidden md:block text-2xl font-bold text-gray-900">
+              Todo
+            </h1>
           </div>
         </div>
 
@@ -83,7 +84,7 @@ const Header = () => {
           <div ref={menuref} className="relative">
             <button
               onClick={handleMenuToggle}
-              className="flex items-center gap-2 px-3 py-1 rounded-full cursor-pointer border border-gray-100 hover:border-gray-300 hover:bg-blue-50 transition-all"
+              className="flex items-center gap-2 px-2 py-1 rounded-full cursor-pointer border border-gray-200 hover:border-gray-300 hover:bg-blue-50 transition-all"
             >
               {/* Avatar */}
               <div className="relative">
@@ -146,6 +147,13 @@ const Header = () => {
               </ul>
             )}
           </div>
+
+          <button
+            className="p-2 rounded-lg hover:bg-blue-50 md:hidden"
+            onClick={onMenuClick}
+          >
+            <Menu className="w-6 h-6" />
+          </button>
         </div>
       </div>
     </header>

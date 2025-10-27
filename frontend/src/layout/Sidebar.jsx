@@ -28,7 +28,7 @@ const Sidebar = () => {
       {/* New Task */}
       <div className="p-2 mt-4">
         <button
-          className="w-full flex items-center justify-center gap-2 p-2 bg-blue-600 text-white rounded-md"
+          className="hidden md:flex w-full items-center justify-center gap-2 p-2 bg-blue-600 text-white rounded-md"
           onClick={handleNewTask}
         >
           {" "}
@@ -38,7 +38,7 @@ const Sidebar = () => {
       </div>
 
       {/* Navbar */}
-      <nav className="flex-1 p-2 mt-4">
+      <nav className="flex-1 p-2 mt-10 md:mt-4">
         {navigation.map((item) => {
           const isActive = location.pathname === item.href;
           return (
