@@ -20,7 +20,6 @@ const Header = () => {
   const navigate = useNavigate();
 
   const { user: currentUser, logout } = useAuth(); // Destructure User và Logout
-
   const menuref = useRef(null); // Ref cho menu dropdown
   const [menuOpen, setMenuOpen] = useState(false); // State cho menu dropdown
 
@@ -96,7 +95,7 @@ const Header = () => {
                   />
                 ) : (
                   <div className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-600 text-white font-semibold shadow-sm">
-                    {currentUser?.user?.userName?.[0]?.toUpperCase() || "U"}
+                    {currentUser?.userName?.[0]?.toUpperCase() || "U"}
                   </div>
                 )}
                 <div className="absolute bottom-0 right-0 w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
@@ -104,10 +103,10 @@ const Header = () => {
               {/* Thông tin người dùng */}
               <div className="text-left hiden md:block">
                 <p className="text-sm font-medium text-gray-800">
-                  {currentUser?.user?.userName}
+                  {currentUser?.userName}
                 </p>
                 <p className="text-xs text-gray-600 font-normal">
-                  {currentUser?.user?.email}
+                  {currentUser?.email}
                 </p>
               </div>
 
