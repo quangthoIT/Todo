@@ -13,13 +13,13 @@ const taskSchema = new mongoose.Schema(
     },
     priority: {
       type: String,
-      enum: ["Thấp", "Trung bình", "Cao"],
-      default: "Thấp",
+      enum: ["Low", "Medium", "High", "Urgent"],
+      default: "Low",
     },
     status: {
       type: String,
-      enum: ["Đang chờ", "Đang tiến hành", "Hoàn thành", "Đã hủy"],
-      default: "Đang chờ",
+      enum: ["Pending", "In_Progress", "Completed", "Cancelled"],
+      default: "Pending",
     },
     dueDate: {
       type: Date,
@@ -36,7 +36,7 @@ const taskSchema = new mongoose.Schema(
     },
     completedAt: {
       type: Date,
-      default: null
+      default: null,
     },
   },
   { timestamps: true }
