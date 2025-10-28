@@ -16,8 +16,8 @@ const Header = ({ onMenuClick }) => {
   const navigate = useNavigate();
 
   return (
-    <header className="sticky top-0 z-50 bg-white shadow-sm border-b border-gray-200 p-4 md:px-6 md:py-3">
-      <div className="flex items-center justify-around max-w-7xl mx-auto">
+    <header className="sticky top-0 z-50 bg-white shadow-sm border-b border-gray-200 py-4 px-8 md:px-12 md:py-3">
+      <div className="flex items-center justify-between max-w-7xl mx-auto">
         {/* Logo */}
         <div
           className="flex items-center gap-1 md:gap-3 flex-shrink-0 group cursor-pointer"
@@ -36,13 +36,13 @@ const Header = ({ onMenuClick }) => {
         </div>
 
         {/* Search */}
-        <div className="flex-1 max-w-xl mx-6">
+        {/* <div className="flex-1 max-w-xl mx-6">
           <Input
             type="search"
             icon={<Search size={20} />}
             placeholder="Search..."
           />
-        </div>
+        </div> */}
 
         {/* Theme - Notification - Infomation */}
         <div className="flex items-center justify-between gap-1 md:gap-3">

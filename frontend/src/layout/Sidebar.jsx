@@ -1,18 +1,20 @@
 import React from "react";
 import {
   BarChart3,
+  Building2,
   Calendar,
   CheckSquare,
   LayoutDashboard,
   Plus,
 } from "lucide-react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { href, Link, useLocation, useNavigate } from "react-router-dom";
 import UserMenu from "../components/UserMenu";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { name: "Tasks", href: "/tasks", icon: CheckSquare },
   { name: "Calendar", href: "/calendar", icon: Calendar },
+  { name: "Organization", href: "/organization", icon: Building2 },
   { name: "Reports", href: "/reports", icon: BarChart3 },
 ];
 
@@ -27,7 +29,7 @@ const Sidebar = () => {
   return (
     <div className="flex flex-col h-full bg-white border-r border-gray-200 shadow-sm p-4">
       {/* New Task */}
-      <div className="p-2 mt-4">
+      {/* <div className="p-2 mt-4">
         <button
           className="hidden md:flex w-full items-center justify-center gap-2 py-3 px-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md cursor-pointer"
           onClick={handleNewTask}
@@ -36,10 +38,10 @@ const Sidebar = () => {
           <Plus />
           New Task
         </button>
-      </div>
+      </div> */}
 
       {/* Navbar */}
-      <nav className="flex-1 p-2 mt-10 md:mt-4">
+      <nav className="flex-1 p-2 mt-16 md:mt-4">
         {navigation.map((item) => {
           const isActive = location.pathname === item.href;
           return (

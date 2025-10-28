@@ -12,6 +12,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Task from "./pages/Tasks";
 import Calendar from "./pages/Calender";
 import Report from "./pages/Reports";
+import Organization from "./pages/Organization";
 
 const App = () => {
   return (
@@ -49,6 +50,7 @@ const App = () => {
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="tasks" element={<Task />} />
               <Route path="calendar" element={<Calendar />} />
+              <Route path="organization" element={<Organization />} />
               <Route path="reports" element={<Report />} />
             </Route>
 
