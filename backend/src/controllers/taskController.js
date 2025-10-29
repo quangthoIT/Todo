@@ -3,17 +3,29 @@ import Task from "../models/taskModel.js";
 // ----- TẠO TASK MỚI -----
 export const createTask = async (req, res) => {
   try {
-    const { title, description, priority, status, dueDate, completed } =
-      req.body;
+    const {
+      title,
+      description,
+      priority,
+      status,
+      startDate,
+      dueDate,
+      completed,
+    } = req.body;
     const task = new Task({
       title,
       description,
       priority,
       status,
+      startDate,
       dueDate,
-      completed: completed === "Yes" || completed === true,
+      completed: completed || false,
       createdBy: req.user._id,
     });
+
+    if (task.completed || task.status === "Completed") {
+      task.completedAt = new Date();
+    }
     const savedTask = await task.save();
     res.status(201).json({ success: true, task: savedTask });
   } catch (error) {
@@ -64,6 +76,13 @@ export const updateTask = async (req, res) => {
     if (data.completed !== undefined) {
       data.completed = data.completed === "Yes" || data.completed === true;
     }
+
+    if (data.completed || data.status === "Completed") {
+      data.completedAt = new Date();
+    } else if (data.completed === false) {
+      data.completedAt = null;
+    }
+
     const updated = await Task.findOneAndUpdate(
       {
         _id: req.params.id,

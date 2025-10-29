@@ -21,6 +21,10 @@ const taskSchema = new mongoose.Schema(
       enum: ["Pending", "In_Progress", "Completed", "Cancelled"],
       default: "Pending",
     },
+    startDate: {
+      type: Date,
+      default: null,
+    },
     dueDate: {
       type: Date,
       default: null,
@@ -41,6 +45,13 @@ const taskSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+taskSchema.pre("save", function (next) {
+  if (this.startDate && this.dueDate && this.startDate > this.dueDate) {
+    next(new Error("Start date must be before due date"));
+  }
+  next();
+});
 
 const Task = mongoose.models.Task || mongoose.model("Task", taskSchema);
 
