@@ -91,7 +91,7 @@ const TaskList = ({
 
                     {/* Start date and Due date */}
                     {(task.startDate || task.dueDate) && (
-                      <div className="flex items-center gap-3 text-xs text-gray-400">
+                      <div className="flex items-center gap-2 md:gap-3 text-xs text-gray-400">
                         {task.startDate && (
                           <p className="text-blue-500">
                             Start:{" "}
@@ -126,7 +126,7 @@ const TaskList = ({
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex flex-col md:flex-row items-center gap-1 md:gap-2">
                   {/* Priority */}
                   <p
                     className={`text-xs px-2 py-1 rounded-full ${getPriorityColor(
@@ -144,14 +144,14 @@ const TaskList = ({
                         size="icon"
                         onClick={() => onEditTask?.(task)}
                       >
-                        <Pencil className="size-5 text-blue-600" />
+                        <Pencil className="size-4 md:size-5 text-blue-600" />
                       </Button>
                       <Button
                         variant="ghost"
                         size="icon"
                         onClick={() => onDeleteTask(task._id)}
                       >
-                        <Trash2 className="size-5 text-red-600" />
+                        <Trash2 className="size-4 md:size-5 text-red-600" />
                       </Button>
                     </div>
                   )}

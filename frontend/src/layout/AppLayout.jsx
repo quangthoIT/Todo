@@ -29,7 +29,7 @@ const AppLayout = () => {
           ></div>
         )}
 
-        <main className="flex-1 p-8 overflow-y-auto bg-gray-50">
+        <main className="flex-1 p-4 md:p-8 overflow-y-auto bg-gray-50">
           <Outlet />
         </main>
       </div>
