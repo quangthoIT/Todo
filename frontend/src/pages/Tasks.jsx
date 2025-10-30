@@ -12,6 +12,7 @@ export default function Tasks() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
+  const [filterPriority, setFilterPriority] = useState("all");
 
   const handleCreateTask = async (taskData) => {
     await createTask(taskData);
@@ -31,12 +32,15 @@ export default function Tasks() {
   };
 
   const filteredTasks = tasks.filter((task) => {
-    const matchesSearch = task.title
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
-    const matchesFilter =
+    const matchesSearch =
+      task.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (task.description &&
+        task.description.toLowerCase().includes(searchQuery.toLowerCase()));
+    const matchesStatus =
       filterStatus === "all" || task.status === filterStatus;
-    return matchesSearch && matchesFilter;
+    const matchesPriority =
+      filterPriority === "all" || task.priority === filterPriority;
+    return matchesSearch && matchesStatus && matchesPriority;
   });
 
   return (
@@ -62,8 +66,12 @@ export default function Tasks() {
       <TaskList
         headerFilters={
           <TaskFilterBar
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
             filterStatus={filterStatus}
             setFilterStatus={setFilterStatus}
+            filterPriority={filterPriority}
+            setFilterPriority={setFilterPriority}
           />
         }
         tasks={filteredTasks}
