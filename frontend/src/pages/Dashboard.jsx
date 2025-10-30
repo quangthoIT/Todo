@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { AlertCircle, CheckCircle2, Clock, TrendingUp } from "lucide-react";
 import { useTasks } from "@/hooks/useTasks";
-import TaskListDashboard from "@/components/TaskListDashboard";
+import TaskList from "@/components/TaskList";
 
 const Dashboard = () => {
   const { tasks } = useTasks();
@@ -95,7 +95,7 @@ const Dashboard = () => {
     .slice(0, 4);
 
   return (
-    <div>
+    <div className="">
       <div className="mb-6">
         <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
           Dashboard
@@ -133,18 +133,22 @@ const Dashboard = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <TaskListDashboard
+        <TaskList
           title="Today's Tasks"
           tasks={todayTasks}
           emptyMessage="No tasks for today"
           getPriorityColor={getPriorityColor}
+          showActions={false}
+          showCheckbox={false}
         />
 
-        <TaskListDashboard
+        <TaskList
           title="Upcoming Tasks"
           tasks={upcomingTasks}
           emptyMessage="No upcoming tasks"
           getPriorityColor={getPriorityColor}
+          showActions={false}
+          showCheckbox={false}
         />
       </div>
     </div>

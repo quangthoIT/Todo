@@ -22,7 +22,6 @@ export const createTask = async (req, res) => {
       completed: completed || false,
       createdBy: req.user._id,
     });
-
     if (task.completed || task.status === "Completed") {
       task.completedAt = new Date();
     }
@@ -74,12 +73,13 @@ export const updateTask = async (req, res) => {
   try {
     const data = { ...req.body };
     if (data.completed !== undefined) {
-      data.completed = data.completed === "Yes" || data.completed === true;
+      data.completed =
+        data.completed === "Completed" || data.completed === true;
     }
 
-    if (data.completed || data.status === "Completed") {
+    if (data.completed === true || data.status === "Completed") {
       data.completedAt = new Date();
-    } else if (data.completed === false) {
+    } else if (data.completed === false || data.status !== "Completed") {
       data.completedAt = null;
     }
 

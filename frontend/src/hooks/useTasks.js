@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import { api } from '../lib/api';
-import { useAuth } from '../contexts/AuthContext';
+import { useState, useEffect } from "react";
+import { api } from "../lib/api";
+import { useAuth } from "../contexts/AuthContext";
 
 export function useTasks() {
   const [tasks, setTasks] = useState([]);
@@ -18,7 +18,7 @@ export function useTasks() {
       const data = await api.tasks.getAll();
       setTasks(data.tasks || []);
     } catch (error) {
-      console.error('Error fetching tasks:', error);
+      console.error("Error fetching tasks:", error);
     } finally {
       setLoading(false);
     }
@@ -28,12 +28,12 @@ export function useTasks() {
     try {
       const data = await api.tasks.create({
         ...taskData,
-        dueDate: taskData.due_date,
+        dueDate: taskData.dueDate,
       });
-      setTasks([data.task, ...tasks]);
+      setTasks((prevTasks) => [data.task, ...prevTasks]);
       return data.task;
     } catch (error) {
-      console.error('Error creating task:', error);
+      console.error("Error creating task:", error);
       throw error;
     }
   };
@@ -42,12 +42,14 @@ export function useTasks() {
     try {
       const data = await api.tasks.update(id, {
         ...updates,
-        dueDate: updates.due_date,
+        dueDate: updates.dueDate,
       });
-      setTasks(tasks.map((task) => (task._id === id ? data.task : task)));
+      setTasks((prevTasks) =>
+        prevTasks.map((task) => (task._id === id ? data.task : task))
+      );
       return data.task;
     } catch (error) {
-      console.error('Error updating task:', error);
+      console.error("Error updating task:", error);
       throw error;
     }
   };
@@ -55,9 +57,9 @@ export function useTasks() {
   const deleteTask = async (id) => {
     try {
       await api.tasks.delete(id);
-      setTasks(tasks.filter((task) => task._id !== id));
+      setTasks((prevTasks) => prevTasks.filter((task) => task._id !== id));
     } catch (error) {
-      console.error('Error deleting task:', error);
+      console.error("Error deleting task:", error);
       throw error;
     }
   };
