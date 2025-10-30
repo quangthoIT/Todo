@@ -8,7 +8,7 @@ const defaultGetPriorityColor = (priority) => {
     case "Urgent":
       return "bg-red-500 text-gray-100";
     case "High":
-      return "bg-orange-500 text-gray-800";
+      return "bg-orange-500 text-gray-100";
     case "Medium":
       return "bg-yellow-400 text-gray-800";
     default:
@@ -44,10 +44,12 @@ const TaskList = ({
             {tasks.map((task) => (
               <div
                 key={task._id}
-                className={`flex items-center justify-between p-3 rounded-lg ${
+                className={`flex items-center justify-between p-3 rounded-lg hover:shadow-md ${
                   task.status === "Completed"
                     ? "bg-green-200"
-                    : "bg-gray-100 hover:bg-gray-200"
+                    : task.status === "Overdue"
+                    ? "bg-red-200"
+                    : "bg-gray-100"
                 } transition`}
               >
                 {/* Checkbox */}
@@ -65,8 +67,8 @@ const TaskList = ({
                     {/* Title */}
                     <p
                       className={
-                        task.status === "Completed"
-                          ? "line-through text-gray-500 font-semibold"
+                        task.status === "Completed" || task.status === "Overdue"
+                          ? "text-gray-500 font-semibold"
                           : "text-gray-900 font-semibold"
                       }
                     >
@@ -77,9 +79,10 @@ const TaskList = ({
                     {task.description && (
                       <p
                         className={
-                          task.status === "Completed"
-                            ? "line-through text-gray-400 text-sm"
-                            : "text-gray-500 text-sm"
+                          task.status === "Completed" ||
+                          task.status === "Overdue"
+                            ? "text-gray-400 text-sm"
+                            : "text-gray-600 text-sm"
                         }
                       >
                         {task.description}

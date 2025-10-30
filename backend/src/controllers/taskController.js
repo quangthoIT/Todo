@@ -40,6 +40,34 @@ export const getTasks = async (req, res) => {
     const tasks = await Task.find({ createdBy: req.user._id }).sort({
       createdAt: -1,
     });
+    const now = new Date();
+    const updatedTasks = await Promise.all(
+      tasks.map(async (task) => {
+        let newStatus = task.status;
+
+        if (task.status !== "Completed") {
+          if (task.startDate && now < task.startDate) {
+            newStatus = "Pending";
+          } else if (
+            task.startDate &&
+            task.dueDate &&
+            now >= task.startDate &&
+            now <= task.dueDate
+          ) {
+            newStatus = "In_Progress";
+          } else if (task.dueDate && now > task.dueDate) {
+            newStatus = "Overdue";
+          }
+
+          if (newStatus !== task.status) {
+            task.status = newStatus;
+            await task.save();
+          }
+        }
+
+        return task;
+      })
+    );
     res.status(200).json({ success: true, tasks });
   } catch (error) {
     res

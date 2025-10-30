@@ -18,7 +18,7 @@ const taskSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["Pending", "In_Progress", "Completed", "Cancelled"],
+      enum: ["Pending", "In_Progress", "Completed", "Overdue"],
       default: "Pending",
     },
     startDate: {
@@ -47,8 +47,20 @@ const taskSchema = new mongoose.Schema(
 );
 
 taskSchema.pre("save", function (next) {
+  const now = new Date();
+
   if (this.startDate && this.dueDate && this.startDate > this.dueDate) {
-    next(new Error("Start date must be before due date"));
+    return next(new Error("Start date must be before due date"));
+  }
+
+  if (this.status !== "Completed") {
+    if (this.startDate && now < this.startDate) {
+      this.status = "Pending";
+    } else if (this.dueDate && now >= this.startDate && now <= this.dueDate) {
+      this.status = "In_Progress";
+    } else if (this.dueDate && now > this.dueDate) {
+      this.status = "Overdue";
+    }
   }
   next();
 });
