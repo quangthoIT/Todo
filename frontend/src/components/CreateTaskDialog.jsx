@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -19,7 +19,12 @@ import {
   SelectField,
 } from "@/components/ui/select";
 
-export function CreateTaskDialog({ isOpen, onClose, onSubmit }) {
+export function CreateTaskDialog({
+  isOpen,
+  onClose,
+  onSubmit,
+  task: editingTask,
+}) {
   const [task, setTask] = useState({
     title: "",
     description: "",
@@ -27,6 +32,26 @@ export function CreateTaskDialog({ isOpen, onClose, onSubmit }) {
     startDate: "",
     dueDate: "",
   });
+
+  useEffect(() => {
+    if (editingTask) {
+      setTask({
+        title: editingTask.title || "",
+        description: editingTask.description || "",
+        priority: editingTask.priority || "Medium",
+        startDate: editingTask.startDate || "",
+        dueDate: editingTask.dueDate || "",
+      });
+    } else {
+      setTask({
+        title: "",
+        description: "",
+        priority: "Medium",
+        startDate: "",
+        dueDate: "",
+      });
+    }
+  }, [editingTask, isOpen]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -39,13 +64,15 @@ export function CreateTaskDialog({ isOpen, onClose, onSubmit }) {
       return;
     }
     onSubmit(task);
-    setTask({
-      title: "",
-      description: "",
-      priority: "Medium",
-      startDate: "",
-      dueDate: "",
-    });
+    if (!editingTask) {
+      setTask({
+        title: "",
+        description: "",
+        priority: "Medium",
+        startDate: "",
+        dueDate: "",
+      });
+    }
   };
 
   return (

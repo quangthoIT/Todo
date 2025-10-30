@@ -13,6 +13,7 @@ export default function Tasks() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
   const [filterPriority, setFilterPriority] = useState("all");
+  const [editingTask, setEditingTask] = useState(null);
 
   const handleCreateTask = async (taskData) => {
     await createTask(taskData);
@@ -77,14 +78,30 @@ export default function Tasks() {
         tasks={filteredTasks}
         onToggleTaskStatus={handleToggleTaskStatus}
         onDeleteTask={deleteTask}
+        onEditTask={(task) => {
+          setEditingTask(task);
+          setIsDialogOpen(true);
+        }}
         showCheckbox={true}
       />
 
       {/* Create Dialog */}
       <CreateTaskDialog
         isOpen={isDialogOpen}
-        onClose={setIsDialogOpen}
-        onSubmit={handleCreateTask}
+        onClose={() => {
+          setIsDialogOpen(false);
+          setEditingTask(null);
+        }}
+        task={editingTask}
+        onSubmit={async (taskData) => {
+          if (editingTask) {
+            await updateTask(editingTask._id, taskData);
+          } else {
+            await createTask(taskData);
+          }
+          setEditingTask(null);
+          setIsDialogOpen(false);
+        }}
       />
     </div>
   );
