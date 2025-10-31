@@ -16,8 +16,8 @@ const defaultGetPriorityColor = (priority) => {
   }
 };
 const TaskList = ({
-  title,
   tasks,
+  title,
   headerFilters,
   emptyMessage,
   getPriorityColor = defaultGetPriorityColor,
@@ -32,7 +32,7 @@ const TaskList = ({
       <CardHeader>
         {headerFilters || (
           <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
-        )}{" "}
+        )}
       </CardHeader>
 
       <CardContent>

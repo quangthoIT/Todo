@@ -9,14 +9,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export function TaskFilterBar({
+const TaskFilterBar = ({
   searchQuery,
   setSearchQuery,
   filterStatus,
   setFilterStatus,
   filterPriority,
   setFilterPriority,
-}) {
+}) => {
   return (
     <div className="flex flex-col md:flex-row items-center gap-4">
       {/* Search */}
@@ -68,4 +68,6 @@ export function TaskFilterBar({
       </div>
     </div>
   );
-}
+};
+
+export default TaskFilterBar;

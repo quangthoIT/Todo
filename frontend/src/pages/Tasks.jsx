@@ -1,24 +1,17 @@
 import React, { useState } from "react";
 import { Plus } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { useTasks } from "@/hooks/useTasks";
-import { TaskFilterBar } from "../components/TaskFilterBar";
 import { CreateTaskDialog } from "../components/CreateTaskDialog";
 import TaskList from "@/components/TaskList";
+import TaskFilterBar from "@/components/TaskFilterBar";
 
-export default function Tasks() {
+const Tasks = () => {
   const { tasks, createTask, updateTask, deleteTask } = useTasks();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
   const [filterPriority, setFilterPriority] = useState("all");
   const [editingTask, setEditingTask] = useState(null);
-
-  const handleCreateTask = async (taskData) => {
-    await createTask(taskData);
-    setIsDialogOpen(false);
-  };
 
   const handleToggleTaskStatus = async (taskId) => {
     const task = tasks.find((t) => t._id === taskId);
@@ -76,6 +69,7 @@ export default function Tasks() {
           />
         }
         tasks={filteredTasks}
+        emptyMessage="No tasks found"
         onToggleTaskStatus={handleToggleTaskStatus}
         onDeleteTask={deleteTask}
         onEditTask={(task) => {
@@ -105,4 +99,6 @@ export default function Tasks() {
       />
     </div>
   );
-}
+};
+
+export default Tasks;
