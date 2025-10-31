@@ -28,9 +28,7 @@ export const createTask = async (req, res) => {
     const savedTask = await task.save();
     res.status(201).json({ success: true, task: savedTask });
   } catch (error) {
-    res
-      .status(400)
-      .json({ success: false, message: "Lỗi server khi tạo task", error });
+    res.status(400).json({ success: false, message: "Server error", error });
   }
 };
 

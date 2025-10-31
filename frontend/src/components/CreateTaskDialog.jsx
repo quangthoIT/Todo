@@ -18,6 +18,7 @@ import {
   SelectItem,
   SelectField,
 } from "@/components/ui/select";
+import { toast } from "sonner";
 
 export function CreateTaskDialog({
   isOpen,
@@ -55,15 +56,25 @@ export function CreateTaskDialog({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (
-      task.startDate &&
-      task.dueDate &&
-      new Date(task.startDate) > new Date(task.dueDate)
-    ) {
-      alert("Start Date must be before Due Date!");
+    const now = new Date();
+
+    const start = task.startDate ? new Date(task.startDate) : now;
+    const due = task.dueDate ? new Date(task.dueDate) : null;
+
+    // Kiểm tra nhập ngày bắt đầu và hạn kết thúc
+    if (!due) {
+      toast.error("Due Date is required!");
       return;
     }
+
+    // Kiểm tra ngày bắt đầu phải nhỏ hơn ngày kết thúc
+    if (start > due) {
+      toast.error("Start Date must be before Due Date!");
+      return;
+    }
+
     onSubmit(task);
+
     if (!editingTask) {
       setTask({
         title: "",

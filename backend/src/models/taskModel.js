@@ -23,11 +23,11 @@ const taskSchema = new mongoose.Schema(
     },
     startDate: {
       type: Date,
-      default: null,
+      default: Date.now,
     },
     dueDate: {
       type: Date,
-      default: null,
+      required: true,
     },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
@@ -48,6 +48,10 @@ const taskSchema = new mongoose.Schema(
 
 taskSchema.pre("save", function (next) {
   const now = new Date();
+
+  if (!this.startDate) {
+    this.startDate = now;
+  }
 
   if (this.startDate && this.dueDate && this.startDate > this.dueDate) {
     return next(new Error("Start date must be before due date"));
