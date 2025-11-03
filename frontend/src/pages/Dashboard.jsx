@@ -2,21 +2,19 @@ import React from "react";
 import TaskList from "@/components/TaskList";
 import { useDashboardData } from "@/hooks/useDashboarData";
 import StatsDashboard from "@/components/StatsDashboard";
+import HeaderPage from "@/components/HeaderPage";
 
 const Dashboard = () => {
   const { stats, todayTasks, upcomingTasks } = useDashboardData();
 
   return (
-    <div className="">
+    <div className="space-y-6">
       {/* Header */}
-      <div className="mb-6">
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
-          Dashboard
-        </h1>
-        <p className="text-gray-600">
-          Welcome back! Here's what's happening today
-        </p>
-      </div>
+      <HeaderPage
+        title="Dashboard"
+        description="Welcome back! Here's what's happening today"
+        showButton={false}
+      />
 
       {/* Stats Dashboard */}
       <StatsDashboard stats={stats} />
