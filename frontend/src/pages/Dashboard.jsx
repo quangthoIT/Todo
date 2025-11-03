@@ -14,7 +14,7 @@ const Dashboard = () => {
           Dashboard
         </h1>
         <p className="text-gray-600">
-          Welcome back! Here's what's happening today.
+          Welcome back! Here's what's happening today
         </p>
       </div>
 

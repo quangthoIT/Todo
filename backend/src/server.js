@@ -4,7 +4,6 @@ import cors from "cors";
 import { connectDB } from "./config/db.js";
 import userRouter from "./routes/userRoute.js";
 import taskRouter from "./routes/taskRoute.js";
-import calendarRouter from "./routes/calendarRoute.js";
 
 dotenv.config(); // Đọc biến môi trường
 
@@ -26,7 +25,6 @@ connectDB(); // Kết nối cơ sở dữ liệu
 // Routes
 app.use("/api/users", userRouter); // Route người dùng
 app.use("/api/tasks", taskRouter); // Route tasks
-app.use("/api/calendar", calendarRouter); // Route calendar
 // Định nghĩa route cơ bản
 app.get("/", (req, res) => {
   res.send("API is running...");

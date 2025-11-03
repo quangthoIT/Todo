@@ -1,1 +1,61 @@
 @import "tailwindcss";
+
+.rbc-toolbar-label {
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+}
+
+.rbc-header {
+  padding: 4px !important;
+}
+
+.rbc-allday-cell {
+  height: 0 !important;
+}
+
+.rbc-event {
+  font-size: 14px;
+}
+
+.rbc-off-range-bg {
+  background-color: oklch(96.7% 0.003 264.542) !important;
+}
+
+.rbc-today {
+  background-color: oklch(93.2% 0.032 255.585) !important;
+}
+
+.rbc-show-more {
+  font-size: 14px !important;
+}
+
+@media (max-width: 1024px) {
+  .rbc-toolbar {
+    flex-direction: column !important;
+    gap: 2px !important;
+  }
+
+  .rbc-header {
+    font-size: 12px !important;
+  }
+
+  .rbc-event-content {
+    font-size: 12px !important;
+  }
+
+  .rbc-event {
+    font-size: 12px !important;
+  }
+
+  .rbc-show-more {
+    font-size: 12px !important;
+  }
+
+  .rbc-time-slot {
+    font-size: 12px !important;
+  }
+
+  .rbc-toolbar .rbc-btn-group > button {
+    font-size: 12px !important;
+  }
+}

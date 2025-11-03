@@ -10,7 +10,7 @@ import NotFound from "./pages/NotFound";
 import RequireNoAuth from "./components/RequireNoAuth";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Task from "./pages/Tasks";
-import Calendar from "./pages/Calender";
+import Calendar from "./pages/Calendar";
 import Report from "./pages/Reports";
 import Organization from "./pages/Organization";
 

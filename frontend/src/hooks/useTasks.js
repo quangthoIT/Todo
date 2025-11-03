@@ -26,10 +26,7 @@ export function useTasks() {
 
   const createTask = async (taskData) => {
     try {
-      const data = await api.tasks.create({
-        ...taskData,
-        dueDate: taskData.dueDate,
-      });
+      const data = await api.tasks.create(taskData);
       setTasks((prevTasks) => [data.task, ...prevTasks]);
       return data.task;
     } catch (error) {
@@ -40,10 +37,7 @@ export function useTasks() {
 
   const updateTask = async (id, updates) => {
     try {
-      const data = await api.tasks.update(id, {
-        ...updates,
-        dueDate: updates.dueDate,
-      });
+      const data = await api.tasks.update(id, updates);
       setTasks((prevTasks) =>
         prevTasks.map((task) => (task._id === id ? data.task : task))
       );
