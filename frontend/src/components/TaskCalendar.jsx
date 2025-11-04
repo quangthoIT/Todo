@@ -22,7 +22,7 @@ const TaskCalendar = ({ tasks }) => {
     priority: task.priority,
   }));
   return (
-    <div className="h-[calc(100vh-250px)] flex flex-col bg-white p-4 rounded-lg shadow-sm">
+    <div className="h-[calc(100vh-235px)] flex flex-col bg-white p-4 rounded-lg shadow-sm">
       <BigCalendar
         localizer={localizer}
         events={events}
@@ -50,7 +50,7 @@ const TaskCalendar = ({ tasks }) => {
                 : "oklch(70.7% 0.022 261.325)",
             color: "white",
             borderRadius: "6px",
-            padding: "2px 6px",
+            padding: "0 6px",
           },
         })}
         formats={{

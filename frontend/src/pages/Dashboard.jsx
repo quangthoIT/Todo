@@ -8,7 +8,7 @@ const Dashboard = () => {
   const { stats, todayTasks, upcomingTasks } = useDashboardData();
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Header */}
       <HeaderPage
         title="Dashboard"
