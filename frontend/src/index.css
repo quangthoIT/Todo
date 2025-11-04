@@ -29,7 +29,7 @@
   font-size: 14px !important;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 940px) {
   .rbc-toolbar {
     flex-direction: column !important;
     gap: 2px !important;

@@ -73,25 +73,19 @@ export function CreateTaskDialog({
       return;
     }
 
-    onSubmit(task);
-
-    if (!editingTask) {
-      setTask({
-        title: "",
-        description: "",
-        priority: "Medium",
-        startDate: "",
-        dueDate: "",
-      });
-    }
+    onSubmit({ ...task, _id: editingTask?._id });
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>Create New Task</DialogTitle>
-          <DialogDescription>Fill in the details below</DialogDescription>
+          <DialogTitle>{editingTask ? "Edit Task" : "Create Task"}</DialogTitle>
+          <DialogDescription>
+            {editingTask
+              ? "Update the task details below"
+              : "Fill in the details below"}
+          </DialogDescription>
         </DialogHeader>
         <div className="border-b border-gray-300"></div>
 
@@ -151,7 +145,7 @@ export function CreateTaskDialog({
           {/* Create Button & Cancel Button */}
           <DialogFooter>
             <Button type="submit" variant="default">
-              Create
+              {editingTask ? "Update" : "Create"}
             </Button>
             <Button
               type="button"

@@ -6,12 +6,35 @@ import {
 } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import TaskDetailDialog from "./TaskDetailDialog";
+import { useTasks } from "@/hooks/useTasks";
+import { CreateTaskDialog } from "./CreateTaskDialog";
 
 const localizer = momentLocalizer(moment);
 
 const TaskCalendar = ({ tasks }) => {
+  const { updateTask } = useTasks();
   const [view, setView] = useState(Views.MONTH);
   const [date, setDate] = useState(new Date());
+  const [selectedTask, setSelectedTask] = useState(null);
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+
+  const handleSelectEvent = (event) => {
+    const task = tasks.find((t) => t._id === event.id);
+    setSelectedTask(task);
+    setIsDetailOpen(true);
+  };
+
+  const handleEditTask = () => {
+    setIsDetailOpen(false);
+    setIsEditOpen(true);
+  };
+
+  const handleUpdateTask = async (updatedTask) => {
+    await updateTask(updatedTask._id, updatedTask);
+    setIsEditOpen(false);
+  };
 
   const events = tasks.map((task) => ({
     id: task._id,
@@ -20,7 +43,10 @@ const TaskCalendar = ({ tasks }) => {
     end: new Date(task.dueDate),
     allDay: false,
     priority: task.priority,
+    completed: task.status === "Completed",
+    overdue: task.status === "Overdue",
   }));
+
   return (
     <div className="h-[calc(100vh-235px)] flex flex-col bg-white p-4 rounded-lg shadow-sm">
       <BigCalendar
@@ -38,27 +64,46 @@ const TaskCalendar = ({ tasks }) => {
         timeslots={1}
         showMultiDayTimes
         toolbar={true}
-        eventPropGetter={(event) => ({
-          style: {
-            backgroundColor:
-              event.priority === "Urgent"
-                ? "oklch(63.7% 0.237 25.331)"
-                : event.priority === "High"
-                ? "oklch(70.5% 0.213 47.604)"
-                : event.priority === "Medium"
-                ? "oklch(85.2% 0.199 91.936)"
-                : "oklch(70.7% 0.022 261.325)",
-            color: "white",
-            borderRadius: "6px",
-            padding: "0 6px",
-          },
-        })}
+        onSelectEvent={handleSelectEvent}
+        eventPropGetter={(event) => {
+          let backgroundColor;
+          if (event.completed) {
+            backgroundColor = "oklch(72.3% 0.219 149.579)";
+          } else if (event.overdue) {
+            backgroundColor = "oklch(63.7% 0.237 25.331)";
+          } else {
+            backgroundColor = "oklch(70.7% 0.022 261.325)";
+          }
+
+          return {
+            style: {
+              backgroundColor,
+              color: "white",
+              borderRadius: "6px",
+              padding: "0 6px",
+            },
+          };
+        }}
         formats={{
           dayFormat: (date, culture, localizer) =>
             localizer.format(date, "ddd D", culture),
           timeGutterFormat: (date, culture, localizer) =>
             localizer.format(date, "hh:mm A", culture),
         }}
+      />
+
+      <TaskDetailDialog
+        task={selectedTask}
+        isOpen={isDetailOpen}
+        onClose={() => setIsDetailOpen(false)}
+        onEdit={handleEditTask}
+      />
+
+      <CreateTaskDialog
+        isOpen={isEditOpen}
+        onClose={() => setIsEditOpen(false)}
+        onSubmit={handleUpdateTask}
+        task={selectedTask}
       />
     </div>
   );
