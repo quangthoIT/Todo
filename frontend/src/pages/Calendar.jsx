@@ -17,6 +17,7 @@ const Calendar = () => {
       console.error("Error creating task:", err);
     }
   };
+
   return (
     <div className="space-y-4">
       {/* Header */}
@@ -28,7 +29,7 @@ const Calendar = () => {
       />
 
       {/* Calendar */}
-      <TaskCalendar tasks={tasks} loading={loading} />
+      <TaskCalendar />
 
       {/* Create Task Dialog */}
       <CreateTaskDialog

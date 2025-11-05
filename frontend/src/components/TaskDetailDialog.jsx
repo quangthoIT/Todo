@@ -9,7 +9,13 @@ import {
 } from "./ui/dialog";
 import { Button } from "./ui/button";
 
-const TaskDetailDialog = ({ task, isOpen, onClose, onEdit }) => {
+const TaskDetailDialog = ({
+  task,
+  isOpen,
+  onClose,
+  onEdit,
+  onToggleComplete,
+}) => {
   if (!task) return null;
 
   const now = new Date();
@@ -62,6 +68,25 @@ const TaskDetailDialog = ({ task, isOpen, onClose, onEdit }) => {
         </div>
 
         <DialogFooter>
+          {task.completed ? (
+            <Button
+              type="button"
+              variant="default"
+              className="bg-amber-600 hover:bg-amber-700"
+              onClick={() => onToggleComplete(task._id)}
+            >
+              Mark as Incomplete
+            </Button>
+          ) : (
+            <Button
+              type="button"
+              variant="default"
+              className="bg-green-600 hover:bg-green-700"
+              onClick={() => onToggleComplete(task._id)}
+            >
+              Mark as Completed
+            </Button>
+          )}
           <Button type="submit" variant="default" onClick={onEdit}>
             Edit
           </Button>

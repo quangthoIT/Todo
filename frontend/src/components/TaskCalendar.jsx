@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Calendar as BigCalendar,
   momentLocalizer,
@@ -12,13 +12,22 @@ import { CreateTaskDialog } from "./CreateTaskDialog";
 
 const localizer = momentLocalizer(moment);
 
-const TaskCalendar = ({ tasks }) => {
-  const { updateTask } = useTasks();
+const TaskCalendar = () => {
+  const { tasks, updateTask, refreshTasks } = useTasks();
   const [view, setView] = useState(Views.MONTH);
   const [date, setDate] = useState(new Date());
   const [selectedTask, setSelectedTask] = useState(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
+
+  useEffect(() => {
+    if (selectedTask && tasks.length > 0) {
+      const updatedTask = tasks.find((t) => t._id === selectedTask._id);
+      if (updatedTask) {
+        setSelectedTask(updatedTask);
+      }
+    }
+  }, [tasks]);
 
   const handleSelectEvent = (event) => {
     const task = tasks.find((t) => t._id === event.id);
@@ -34,6 +43,24 @@ const TaskCalendar = ({ tasks }) => {
   const handleUpdateTask = async (updatedTask) => {
     await updateTask(updatedTask._id, updatedTask);
     setIsEditOpen(false);
+  };
+
+  const handleToggleComplete = async (taskId) => {
+    const task = tasks.find((t) => t._id === taskId);
+    if (!task) return;
+
+    const newStatus = task.status === "Completed" ? "Pending" : "Completed";
+    const updatedTask = await updateTask(taskId, {
+      status: newStatus,
+      completed: newStatus === "Completed",
+      completedAt: newStatus === "Completed" ? new Date().toISOString() : null,
+    });
+
+    if (updatedTask) {
+      setSelectedTask(updatedTask);
+    }
+
+    await refreshTasks();
   };
 
   const events = tasks.map((task) => ({
@@ -97,6 +124,7 @@ const TaskCalendar = ({ tasks }) => {
         isOpen={isDetailOpen}
         onClose={() => setIsDetailOpen(false)}
         onEdit={handleEditTask}
+        onToggleComplete={handleToggleComplete}
       />
 
       <CreateTaskDialog
