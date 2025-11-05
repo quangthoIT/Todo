@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Plus } from "lucide-react";
 import { useTasks } from "@/hooks/useTasks";
 import { CreateTaskDialog } from "../components/CreateTaskDialog";
 import TaskList from "@/components/TaskList";

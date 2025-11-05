@@ -9,6 +9,30 @@ const getAuthHeaders = () => {
 };
 
 export const api = {
+  auth: {
+    forgotPassword: async (email) => {
+      const res = await fetch(`${API_URL}/users/forgot-password`, {
+        method: "POST",
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      if (!res.ok)
+        throw new Error(data.message || "Failed to send reset email");
+      return data;
+    },
+    resetPassword: async (email, password, otp) => {
+      const res = await fetch(`${API_URL}/users/reset-password`, {
+        method: "POST",
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ email, password, otp }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Failed to reset password");
+      return data;
+    },
+  },
+
   tasks: {
     getAll: async () => {
       const response = await fetch(`${API_URL}/tasks`, {

@@ -2,10 +2,11 @@ import userModel from "../models/userModel.js";
 import validator from "validator";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { get } from "mongoose";
+import { sendMailForgotPassword } from "../utils/sendmailForgotPassword.js";
+import otpGenerator from "otp-generator";
 
 // ----- CẤU HÌNH JWT -----
-const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret_key"; // Khóa bí mật JWT (nên lưu trong biến môi trường)
+const JWT_SECRET = process.env.JWT_SECRET; // Khóa bí mật JWT
 const TOKEN_EXPIRES = "7d"; // Token hết hạn sau 7 ngày
 // Hàm tạo Token từ ID người dùng
 const createToken = (id) =>
@@ -18,21 +19,19 @@ export const registerUser = async (req, res) => {
   if (!userName || !email || !password) {
     return res
       .status(400)
-      .json({ success: false, message: "Tất cả các trường đều bắt buộc." });
+      .json({ success: false, message: "All fields are required" });
   }
 
   // Kiểm tra định dạng email
   if (!validator.isEmail(email)) {
-    return res
-      .status(400)
-      .json({ success: false, message: "Email không hợp lệ." });
+    return res.status(400).json({ success: false, message: "Email not valid" });
   }
 
   // Kiểm tra độ dài mật khẩu
   if (password.length < 8) {
     return res.status(400).json({
       success: false,
-      message: "Mật khẩu phải có ít nhất 8 ký tự.",
+      message: "Password must be at least 8 characters.",
     });
   }
 
@@ -41,7 +40,7 @@ export const registerUser = async (req, res) => {
     if (await userModel.findOne({ email })) {
       return res
         .status(400)
-        .json({ success: false, message: "Email đã được sử dụng." });
+        .json({ success: false, message: "Email is already in use" });
     }
 
     // Băm mật khẩu
@@ -68,7 +67,7 @@ export const registerUser = async (req, res) => {
   } catch (error) {
     // Xử lý lỗi
     console.log(error);
-    res.status(500).json({ success: false, message: "Lỗi máy chủ." });
+    res.status(500).json({ success: false, message: "Server error" });
   }
 };
 
@@ -80,7 +79,7 @@ export const loginUser = async (req, res) => {
   if (!email || !password) {
     return res
       .status(400)
-      .json({ success: false, message: "Tất cả các trường đều bắt buộc." });
+      .json({ success: false, message: "All fields are required" });
   }
 
   try {
@@ -90,7 +89,7 @@ export const loginUser = async (req, res) => {
     if (!user) {
       return res
         .status(400)
-        .json({ success: false, message: "Email hoặc mật khẩu không đúng." });
+        .json({ success: false, message: "Email or password is incorrect" });
     }
 
     // So sánh mật khẩu người dùng nhập vào với mật khẩu đã băm
@@ -98,7 +97,7 @@ export const loginUser = async (req, res) => {
     if (!isMatch) {
       return res
         .status(400)
-        .json({ success: false, message: "Email hoặc mật khẩu không đúng." });
+        .json({ success: false, message: "Email or password is incorrect" });
     }
 
     // Tạo token và trả về thông tin người dùng
@@ -114,7 +113,7 @@ export const loginUser = async (req, res) => {
   } catch (error) {
     // Xử lý lỗi
     console.log(error);
-    res.status(500).json({ success: false, message: "Lỗi máy chủ." });
+    res.status(500).json({ success: false, message: "Server error" });
   }
 };
 
@@ -128,12 +127,12 @@ export const getUserProfile = async (req, res) => {
     if (!user) {
       return res
         .status(404)
-        .json({ success: false, message: "Không tìm thấy người dùng." });
+        .json({ success: false, message: "User not found" });
     }
     res.status(200).json({ success: true, user });
   } catch (error) {
-    console.log("Lỗi lấy profile:", error);
-    res.status(500).json({ success: false, message: "Lỗi máy chủ." });
+    console.log("Error getting user profile", error);
+    res.status(500).json({ success: false, message: "Server error" });
   }
 };
 
@@ -144,7 +143,7 @@ export const updateUserProfile = async (req, res) => {
   if (!userName || !email || !validator.isEmail(email)) {
     return res
       .status(400)
-      .json({ success: false, message: "Thông tin không hợp lệ." });
+      .json({ success: false, message: "Invalid user information" });
   }
 
   try {
@@ -158,7 +157,7 @@ export const updateUserProfile = async (req, res) => {
     if (exists) {
       return res
         .status(409)
-        .json({ success: false, message: "Email đã được sử dụng." });
+        .json({ success: false, message: "Email is already in use" });
     }
 
     // Cập nhật thông tin người dùng
@@ -169,8 +168,8 @@ export const updateUserProfile = async (req, res) => {
     );
     res.json({ success: true, user });
   } catch (error) {
-    console.log("Lỗi cập nhật profile:", error);
-    res.status(500).json({ success: false, message: "Lỗi máy chủ." });
+    console.log("Error updating user profile:", error);
+    res.status(500).json({ success: false, message: "server error" });
   }
 };
 
@@ -181,7 +180,7 @@ export const changeUserPassword = async (req, res) => {
   if (!currentPassword || !newPassword || newPassword.length < 8) {
     return res.status(400).json({
       success: false,
-      message: "Thông tin mật khẩu không hợp lệ.",
+      message: "Invalid password information",
     });
   }
 
@@ -191,7 +190,7 @@ export const changeUserPassword = async (req, res) => {
     if (!user) {
       return res
         .status(404)
-        .json({ success: false, message: "Người dùng không tồn tại." });
+        .json({ success: false, message: "User not found" });
     }
 
     // Kiểm tra mật khẩu cũ
@@ -199,7 +198,7 @@ export const changeUserPassword = async (req, res) => {
     if (!isMatch) {
       return res
         .status(401)
-        .json({ success: false, message: "Mật khẩu hiện tại không đúng." });
+        .json({ success: false, message: "Password does not match" });
     }
 
     // Băm mật khẩu mới và cập nhật
@@ -207,11 +206,133 @@ export const changeUserPassword = async (req, res) => {
     await user.save();
     res.status(200).json({
       success: true,
-      message: "Mật khẩu đã được thay đổi thành công.",
+      message: "Password changed successfully",
     });
   } catch (error) {
-    console.log("Lỗi khi thay đổi mật khẩu:", error);
-    res.status(500).json({ success: false, message: "Lỗi máy chủ." });
+    console.log("Error changing password:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+// ----- QUÊN MẬT KHẨU NGƯỜI DÙNG -----
+export const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  try {
+    // Kiểm tra người dùng có tồn tại hay không
+    const user = await userModel.findOne({ email });
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+    // Tạo mã OTP 6 số
+    const otp = otpGenerator.generate(6, {
+      digits: true,
+      alphabets: false,
+      specialChars: false,
+      upperCaseAlphabets: false,
+      lowerCaseAlphabets: false,
+    });
+    // Lưu OTP với thời gian là 10 phút
+    user.resetPasswordOTP = otp;
+    user.otpExpiresTime = Date.now() + 10 * 60 * 1000;
+    await user.save();
+
+    await sendMailForgotPassword(email, otp);
+    res.status(200).json({
+      success: true,
+      message: "OTP has been sent to your email",
+    });
+  } catch (error) {
+    console.log("Error sending OTP:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+// ----- XÁC THỰC OTP -----
+export const verifyOTP = async (req, res) => {
+  const { email, otp } = req.body;
+
+  try {
+    const user = await userModel.findOne({ email });
+    if (!user || user.resetPasswordOTP !== otp) {
+      return res.status(400).json({ success: false, message: "OTP not valid" });
+    }
+
+    if (Date.now() > user.otpExpiresTime) {
+      return res
+        .status(400)
+        .json({ success: false, message: "OTP has expired" });
+    }
+
+    res.json({
+      success: true,
+      message: "OTP successfully verified",
+    });
+  } catch (error) {
+    console.error("Error verifying OTP:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+// ----- ĐẶT LẠI MẬT KHẨU -----
+export const resetPassword = async (req, res) => {
+  const { email, password, otp } = req.body;
+
+  // Kiểm tra đầu vào
+  if (!email || !password || !otp) {
+    return res.status(400).json({
+      success: false,
+      message: "Missing required information",
+    });
+  }
+
+  if (password.length < 8) {
+    return res.status(400).json({
+      success: false,
+      message: "Password must be at least 8 characters",
+    });
+  }
+
+  try {
+    const user = await userModel.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    // Kiểm tra OTP
+    if (!user.resetPasswordOTP || user.resetPasswordOTP !== otp) {
+      return res.status(400).json({
+        success: false,
+        message: "OTP is invalid",
+      });
+    }
+
+    if (Date.now() > user.otpExpiresTime) {
+      return res.status(400).json({
+        success: false,
+        message: "OTP has expired",
+      });
+    }
+
+    // Cập nhật mật khẩu
+    user.password = await bcrypt.hash(password, 10);
+    user.resetPasswordOTP = undefined;
+    user.otpExpiresTime = undefined;
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Password has been reset successfully",
+    });
+  } catch (error) {
+    console.error("Error resetting password:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error when resetting password",
+    });
   }
 };
 
@@ -226,18 +347,18 @@ export const deleteUserAccount = async (req, res) => {
     if (!deletedUser) {
       return res.status(404).json({
         success: false,
-        message: "Không tìm thấy tài khoản để xóa.",
+        message: "Account not found",
       });
     }
 
     res.status(200).json({
       success: true,
-      message: "Tài khoản đã được xóa thành công.",
+      message: "Account deleted successfully",
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Lỗi server khi xóa tài khoản.",
+      message: "Server error when deleting account",
       error,
     });
   }

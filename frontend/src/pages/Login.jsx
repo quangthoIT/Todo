@@ -90,7 +90,14 @@ const Login = () => {
           </form>
 
           {/* Nếu chưa có tài khoản thì chuyển sang đăng ký */}
-          <div className="mt-6 text-center">
+          <div className="mt-4 text-center">
+            <Link
+              to="/forgot-password"
+              className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+            >
+              Forgot password?
+            </Link>
+
             <p className="text-sm text-gray-600">
               Don't have an account?{" "}
               <Link

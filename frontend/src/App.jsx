@@ -13,6 +13,8 @@ import Task from "./pages/Tasks";
 import Calendar from "./pages/Calendar";
 import Report from "./pages/Reports";
 import Organization from "./pages/Organization";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 const App = () => {
   return (
@@ -27,6 +29,22 @@ const App = () => {
               element={
                 <RequireNoAuth>
                   <Login />
+                </RequireNoAuth>
+              }
+            />
+            <Route
+              path="/forgot-password"
+              element={
+                <RequireNoAuth>
+                  <ForgotPassword />
+                </RequireNoAuth>
+              }
+            />
+            <Route
+              path="/reset-password"
+              element={
+                <RequireNoAuth>
+                  <ResetPassword />
                 </RequireNoAuth>
               }
             />
