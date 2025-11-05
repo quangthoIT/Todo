@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTasks } from "@/hooks/useTasks";
 import { CreateTaskDialog } from "../components/CreateTaskDialog";
 import TaskList from "@/components/TaskList";
 import TaskFilterBar from "@/components/TaskFilterBar";
 import HeaderPage from "@/components/HeaderPage";
+import TaskPagination from "@/components/TaskPagination";
 
 const Tasks = () => {
   const { tasks, createTask, updateTask, deleteTask } = useTasks();
@@ -13,14 +14,14 @@ const Tasks = () => {
   const [filterStatus, setFilterStatus] = useState("all");
   const [filterPriority, setFilterPriority] = useState("all");
   const [editingTask, setEditingTask] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const numberTasksOnPage = 10;
 
-  // Hàm đổi trạng thái task
+  // 🧠 Hàm đổi trạng thái task
   const handleToggleTaskStatus = async (taskId) => {
-    // Tìm kiếm task theo id
     const task = tasks.find((t) => t._id === taskId);
     if (!task) return;
 
-    // Cập nhật trạng thái task
     const newStatus = task.status === "Completed" ? "Pending" : "Completed";
     await updateTask(taskId, {
       status: newStatus,
@@ -29,21 +30,32 @@ const Tasks = () => {
     });
   };
 
-  // Lọc danh sách tasks theo từ khóa và bộ lọc
+  // 🔍 Lọc danh sách tasks
   const filteredTasks = tasks.filter((task) => {
-    // Lọc theo từ khóa
     const matchesSearch =
       task.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (task.description &&
         task.description.toLowerCase().includes(searchQuery.toLowerCase()));
-    // Lọc theo trạng thái
     const matchesStatus =
       filterStatus === "all" || task.status === filterStatus;
-    // Lọc theo độ ưu tiên
     const matchesPriority =
       filterPriority === "all" || task.priority === filterPriority;
     return matchesSearch && matchesStatus && matchesPriority;
   });
+
+  // Tính tổng số trang
+  const totalPages = Math.ceil(filteredTasks.length / numberTasksOnPage);
+  // Xác định vị trí của task cuối cùng trên trang hiện tại
+  const indexOfLastTask = currentPage * numberTasksOnPage;
+  // Xác định vị trí của task đầu tiên trên trang hiện tại
+  const indexOfFirstTask = indexOfLastTask - numberTasksOnPage;
+  // Cắt danh sách task thuộc trang hiện tại
+  const currentTasks = filteredTasks.slice(indexOfFirstTask, indexOfLastTask);
+
+  // Nếu đổi filter/search - quay lại trang 1
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, filterStatus, filterPriority]);
 
   return (
     <div className="space-y-4">
@@ -67,7 +79,7 @@ const Tasks = () => {
             setFilterPriority={setFilterPriority}
           />
         }
-        tasks={filteredTasks}
+        tasks={currentTasks}
         emptyMessage="No tasks found"
         onToggleTaskStatus={handleToggleTaskStatus}
         onDeleteTask={deleteTask}
@@ -76,6 +88,13 @@ const Tasks = () => {
           setIsDialogOpen(true);
         }}
         showCheckbox={true}
+      />
+
+      {/* 📄 Pagination */}
+      <TaskPagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
       />
 
       {/* Create Task Dialog */}

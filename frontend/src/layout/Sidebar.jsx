@@ -7,7 +7,7 @@ import {
   LayoutDashboard,
   Plus,
 } from "lucide-react";
-import { href, Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import UserMenu from "../components/UserMenu";
 
 const navigation = [
