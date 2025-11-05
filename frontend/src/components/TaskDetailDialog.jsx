@@ -12,6 +12,22 @@ import { Button } from "./ui/button";
 const TaskDetailDialog = ({ task, isOpen, onClose, onEdit }) => {
   if (!task) return null;
 
+  const now = new Date();
+  const start = new Date(task.startDate);
+  const due = new Date(task.dueDate);
+
+  const renderStatus = () => {
+    if (task.completed) {
+      return <span className="text-green-600 font-semibold">Completed</span>;
+    } else if (now < start) {
+      return <span className="text-amber-600 font-semibold">Pending</span>;
+    } else if (now >= start && now <= due) {
+      return <span className="text-blue-600 font-semibold">In Progress</span>;
+    } else if (now > due) {
+      return <span className="text-red-600 font-semibold">Overdue</span>;
+    }
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[600px]">
@@ -27,34 +43,7 @@ const TaskDetailDialog = ({ task, isOpen, onClose, onEdit }) => {
             <strong>Priority:</strong> {task.priority}
           </p>
           <p>
-            <strong>Status:</strong>{" "}
-            {(() => {
-              const now = new Date();
-              const start = new Date(task.startDate);
-              const due = new Date(task.dueDate);
-
-              if (task.completed) {
-                return (
-                  <span className="text-green-600 font-semibold">
-                    Completed
-                  </span>
-                );
-              } else if (now < start) {
-                return (
-                  <span className="text-amber-600 font-semibold">Pending</span>
-                );
-              } else if (now >= start && now <= due) {
-                return (
-                  <span className="text-blue-600 font-semibold">
-                    In Progress
-                  </span>
-                );
-              } else if (now > due) {
-                return (
-                  <span className="text-red-600 font-semibold">Overdue</span>
-                );
-              }
-            })()}
+            <strong>Status:</strong> {renderStatus()}
           </p>
           <p>
             <strong>Start Date: </strong>

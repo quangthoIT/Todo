@@ -8,16 +8,20 @@ import HeaderPage from "@/components/HeaderPage";
 
 const Tasks = () => {
   const { tasks, createTask, updateTask, deleteTask } = useTasks();
+
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
   const [filterPriority, setFilterPriority] = useState("all");
   const [editingTask, setEditingTask] = useState(null);
 
+  // Hàm đổi trạng thái task
   const handleToggleTaskStatus = async (taskId) => {
+    // Tìm kiếm task theo id
     const task = tasks.find((t) => t._id === taskId);
     if (!task) return;
 
+    // Cập nhật trạng thái task
     const newStatus = task.status === "Completed" ? "Pending" : "Completed";
     await updateTask(taskId, {
       status: newStatus,
@@ -26,13 +30,17 @@ const Tasks = () => {
     });
   };
 
+  // Lọc danh sách tasks theo từ khóa và bộ lọc
   const filteredTasks = tasks.filter((task) => {
+    // Lọc theo từ khóa
     const matchesSearch =
       task.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       (task.description &&
         task.description.toLowerCase().includes(searchQuery.toLowerCase()));
+    // Lọc theo trạng thái
     const matchesStatus =
       filterStatus === "all" || task.status === filterStatus;
+    // Lọc theo độ ưu tiên
     const matchesPriority =
       filterPriority === "all" || task.priority === filterPriority;
     return matchesSearch && matchesStatus && matchesPriority;
@@ -71,7 +79,7 @@ const Tasks = () => {
         showCheckbox={true}
       />
 
-      {/* Create Dialog */}
+      {/* Create Task Dialog */}
       <CreateTaskDialog
         isOpen={isDialogOpen}
         onClose={() => {

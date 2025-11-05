@@ -54,6 +54,7 @@ export function CreateTaskDialog({
     }
   }, [editingTask, isOpen]);
 
+  // Hàm xử lý người dùng "Create" hay "Update"
   const handleSubmit = (e) => {
     e.preventDefault();
     const now = new Date();
@@ -74,6 +75,15 @@ export function CreateTaskDialog({
     }
 
     onSubmit({ ...task, _id: editingTask?._id });
+
+    setTask({
+      title: "",
+      description: "",
+      startDate: "",
+      dueDate: "",
+      priority: "Medium",
+    });
+    onClose();
   };
 
   return (
