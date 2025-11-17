@@ -16,7 +16,7 @@ const TaskPagination = ({ currentPage, totalPages, onPageChange }) => {
         {/* Nút Previous */}
         <PaginationItem>
           <PaginationPrevious
-            onClick={(() => onPageChange(currentPage - 1), 1)}
+            onClick={() => onPageChange(currentPage - 1)}
             className={
               currentPage === 1
                 ? "pointer-events-none opacity-50"
