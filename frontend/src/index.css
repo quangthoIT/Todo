@@ -59,3 +59,10 @@
     font-size: 12px !important;
   }
 }
+
+:root {
+  --chart-1: oklch(76.9% 0.188 70.08);
+  --chart-2: oklch(62.3% 0.214 259.815);
+  --chart-3: oklch(72.3% 0.219 149.579);
+  --chart-4: oklch(63.7% 0.237 25.331);
+}
