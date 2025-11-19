@@ -71,10 +71,10 @@ const HeaderPage = ({
           New Task
         </button>
       ) : showDateRangePicker ? (
-        <div className="flex flex-col md:flex-row gap-3 w-full md:w-auto">
-          <div className="flex flex-col gap-1.5">
+        <div className="flex flex-row justify-between w-full md:w-auto md:gap-4">
+          <div className="flex flex-col gap-1">
             <Label htmlFor="from-date" className="text-sm font-medium">
-              Từ ngày
+              From Date
             </Label>
             <Input
               id="from-date"
@@ -86,9 +86,9 @@ const HeaderPage = ({
             />
           </div>
 
-          <div className="flex flex-col gap-1.5">
+          <div className="flex flex-col gap-1">
             <Label htmlFor="to-date" className="text-sm font-medium">
-              Đến ngày
+              To Date
             </Label>
             <Input
               id="to-date"

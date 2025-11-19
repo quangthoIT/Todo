@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import HeaderPage from "@/components/HeaderPage";
 import { useReportsData } from "@/hooks/useReportsData";
-import ChartPieDonutTaskStatus from "@/components/ChartPieDonutTaskStatus";
+import ChartPieTaskStatus from "@/components/ChartPieTaskStatus";
+import ChartBarPriority from "@/components/ChartBarPriority";
 
 const Reports = () => {
   const [dateRange, setDateRange] = useState({
@@ -9,7 +10,7 @@ const Reports = () => {
     to: undefined,
   });
 
-  const { stats } = useReportsData(dateRange);
+  const { statusStats, priorityStats } = useReportsData(dateRange);
 
   const handleDateRangeChange = (range) => {
     setDateRange(range);
@@ -24,7 +25,16 @@ const Reports = () => {
         dateRange={dateRange}
         onDateRangeChange={handleDateRangeChange}
       />
-      <ChartPieDonutTaskStatus stats={stats} />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <ChartPieTaskStatus
+          statusStats={statusStats}
+          title="Task Status Overview"
+        />
+        <ChartBarPriority
+          priorityStats={priorityStats}
+          title="Priority Distribution"
+        />
+      </div>
     </div>
   );
 };
