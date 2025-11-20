@@ -6,23 +6,64 @@ export function useDashboardData() {
 
   // --- STATISTICS ---
   const stats = useMemo(() => {
-    const completedTasks = tasks.filter((t) => t.status === "Completed").length;
-    const overdueTasks = tasks.filter((t) => t.status === "Overdue").length;
-    const inProgressTasks = tasks.filter(
-      (t) => t.status === "In_Progress"
-    ).length;
-    const pendingTasks = tasks.filter((t) => t.status === "Pending").length;
+    if (!tasks || tasks.length === 0) {
+      return {
+        totalTasks: 0,
+        pendingTasks: 0,
+        inProgressTasks: 0,
+        completedTasks: 0,
+        overdueTasks: 0,
+      };
+    }
 
-    return {
-      totalTasks: tasks.length,
-      completedTasks,
-      inProgressTasks,
-      overdueTasks,
-      pendingTasks,
+    // ----- DASHBOARD STATS CHỈ LẤY BẮT ĐẦU TỪ NGÀY HÔM NAY -----
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const todayOnwardsTasks = tasks.filter((task) => {
+      const taskStartDate = task.startDate ? new Date(task.startDate) : null;
+      const taskDueDate = task.dueDate ? new Date(task.dueDate) : null;
+
+      // Nếu không có cả startDate và dueDate thì bỏ qua
+      if (!taskStartDate && !taskDueDate) return false;
+
+      // Task startDate và dueDate có ngày hôm nay trở đi thì tính
+      if (taskDueDate) {
+        taskDueDate.setHours(0, 0, 0, 0);
+        if (taskDueDate >= today) return true;
+      }
+      if (taskStartDate) {
+        taskStartDate.setHours(0, 0, 0, 0);
+        if (taskStartDate >= today) return true;
+      }
+
+      return false;
+    });
+
+    // Phân loại các task từ hôm nay trở đi
+    const pendingTasks = todayOnwardsTasks.filter(
+      (t) => t.status === "Pending"
+    );
+    const inProgressTasks = todayOnwardsTasks.filter(
+      (t) => t.status === "In_Progress"
+    );
+    const completedTasks = todayOnwardsTasks.filter((t) => t.status === "Completed");
+    const overdueTasks = todayOnwardsTasks.filter((t) => t.status === "Overdue");
+
+    const result = {
+      totalTasks: todayOnwardsTasks.length,
+      pendingTasks: pendingTasks.length,
+      inProgressTasks: inProgressTasks.length,
+      completedTasks: completedTasks.length,
+      overdueTasks: overdueTasks.length,
     };
+
+    return result;
   }, [tasks]);
 
   // ---- DATE RANGES ----
+
+  // Đặt mốc bắt đầu của ngày hôm nay 00:00
   const startOfToday = new Date();
   startOfToday.setHours(0, 0, 0, 0);
   // Đặt mốc bắt đầu của ngày mai 00:00 ngày kế tiếp
