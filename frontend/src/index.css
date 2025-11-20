@@ -61,6 +61,7 @@
 }
 
 :root {
+  --chart-created: oklch(27.8% 0.033 256.848);
   --chart-pending: oklch(76.9% 0.188 70.08);
   --chart-inProgress: oklch(62.3% 0.214 259.815);
   --chart-completed: oklch(72.3% 0.219 149.579);

@@ -88,7 +88,13 @@ const ChartBarPriority = ({ priorityStats, title }) => {
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
-          <BarChart data={chartData}>
+          <BarChart
+            data={chartData}
+            margin={{
+              left: -30,
+              right: 8,
+            }}
+          >
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="priority"

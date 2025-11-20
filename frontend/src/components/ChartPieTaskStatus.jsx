@@ -1,5 +1,5 @@
 import React from "react";
-import { Label, Pie, PieChart } from "recharts";
+import { Label, Pie, PieChart, ResponsiveContainer } from "recharts";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
   ChartContainer,
@@ -77,54 +77,56 @@ const ChartPieTaskStatus = ({ statusStats, title }) => {
       <CardContent className="space-y-3">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-[250px]"
+          className="w-full h-full flex items-center justify-center"
         >
-          <PieChart>
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
-
-            <Pie
-              data={chartData}
-              dataKey="value"
-              nameKey="name"
-              innerRadius={70}
-              outerRadius={110}
-              strokeWidth={5}
-            >
-              <Label
-                content={({ viewBox }) => {
-                  if (viewBox && viewBox.cx && viewBox.cy) {
-                    return (
-                      <text
-                        x={viewBox.cx}
-                        y={viewBox.cy}
-                        textAnchor="middle"
-                        dominantBaseline="middle"
-                      >
-                        <tspan
-                          x={viewBox.cx}
-                          y={viewBox.cy - 5}
-                          className="fill-black text-5xl font-bold"
-                        >
-                          {total}
-                        </tspan>
-                        <tspan
-                          x={viewBox.cx}
-                          y={viewBox.cy + 25}
-                          className="text-base fill-black"
-                        >
-                          Tasks
-                        </tspan>
-                      </text>
-                    );
-                  }
-                  return null;
-                }}
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart>
+              <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent hideLabel />}
               />
-            </Pie>
-          </PieChart>
+
+              <Pie
+                data={chartData}
+                dataKey="value"
+                nameKey="name"
+                innerRadius="60%"
+                outerRadius="90%"
+                strokeWidth={5}
+              >
+                <Label
+                  content={({ viewBox }) => {
+                    if (viewBox && viewBox.cx && viewBox.cy) {
+                      return (
+                        <text
+                          x={viewBox.cx}
+                          y={viewBox.cy}
+                          textAnchor="middle"
+                          dominantBaseline="middle"
+                        >
+                          <tspan
+                            x={viewBox.cx}
+                            y={viewBox.cy - 5}
+                            className="fill-black text-5xl font-bold"
+                          >
+                            {total}
+                          </tspan>
+                          <tspan
+                            x={viewBox.cx}
+                            y={viewBox.cy + 25}
+                            className="text-base fill-black"
+                          >
+                            Tasks
+                          </tspan>
+                        </text>
+                      );
+                    }
+                    return null;
+                  }}
+                />
+              </Pie>
+            </PieChart>
+          </ResponsiveContainer>
         </ChartContainer>
       </CardContent>
     </Card>

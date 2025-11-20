@@ -29,6 +29,7 @@ export function useReportsData(dateRange = null) {
     let filtered = tasks; // Khi chưa lọc mặc định dữ liệu là toàn bộ Task
 
     // ----- LỌC THEO KHOẢNG THỜI GIAN -----
+    
     // Khi có Từ ngày và Đến ngày
     if (dateRange?.from && dateRange?.to) {
       const startDate = new Date(dateRange.from);
@@ -76,8 +77,85 @@ export function useReportsData(dateRange = null) {
       urgent: filtered.filter((t) => t.priority === "Urgent").length,
     };
 
-    return { statusStats, priorityStats }; // Trả về 2 nhóm dữ liệu
+    // ----- TÍNH TOÁN THỐNG KÊ THEO XU HƯỚNG -----
+    const trendData = generateTrendData(filtered, dateRange);
+
+    return { statusStats, priorityStats, trendData }; // Trả về 3 nhóm dữ liệu
   }, [tasks, dateRange, now]);
 
-  return stats; // Trả về object: { statusStats, priorityStats }
+  return stats; // Trả về object: { statusStats, priorityStats, trendData }
+}
+
+function generateTrendData(tasks, dateRange) {
+  if (tasks.length === 0) return [];
+
+  // Determine date range
+  let startDate, endDate;
+
+  // Trường hợp có cả Từ ngày và Đến ngày
+  if (dateRange?.from && dateRange?.to) {
+    startDate = new Date(dateRange.from);
+    endDate = new Date(dateRange.to);
+  }
+  // Chỉ có Từ ngày - mặc định kết thúc là hôm nay
+  else if (dateRange?.from) {
+    startDate = new Date(dateRange.from);
+    endDate = new Date();
+  }
+  // Không chọn gì - mặc định lấy 7 ngày gần nhất
+  else {
+    endDate = new Date();
+    startDate = new Date();
+    startDate.setDate(startDate.getDate() - 6);
+  }
+
+  startDate.setHours(0, 0, 0, 0);
+  endDate.setHours(23, 59, 59, 999);
+
+  const trendMap = {}; // Tạo object trendMap để lưu dữ liệu ngày
+  const currentDate = new Date(startDate);
+
+  // Duyệt qua từng ngày trong khoảng thời gian
+  while (currentDate <= endDate) {
+    const dateKey = currentDate.toISOString().split("T")[0];
+    trendMap[dateKey] = {
+      date: dateKey,
+      created: 0,
+      completed: 0,
+    };
+    currentDate.setDate(currentDate.getDate() + 1); // Sang ngày tiếp theo
+  }
+
+  // Đếm task tương ứng với từng ngày
+  tasks.forEach((task) => {
+    const taskDate = new Date(task.startDate);
+    const dateKey = taskDate.toISOString().split("T")[0];
+
+    if (trendMap[dateKey]) {
+      trendMap[dateKey].created++;
+    }
+
+    // Nếu task hoàn thành, đếm cho Completed
+    if (task.status === "Completed" && task.completedAt) {
+      const completedDate = new Date(task.completedAt);
+      const completedKey = completedDate.toISOString().split("T")[0];
+
+      if (trendMap[completedKey]) {
+        trendMap[completedKey].completed++;
+      }
+    }
+  });
+
+  // Convert trendMap sang array để đưa vào chart
+  return Object.values(trendMap).map((item) => ({
+    ...item,
+    displayDate: formatDateForDisplay(item.date),
+  }));
+}
+
+function formatDateForDisplay(dateString) {
+  const date = new Date(dateString);
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  return `${day}/${month}`;
 }
