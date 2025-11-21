@@ -4,6 +4,7 @@ import { useReportsData } from "@/hooks/useReportsData";
 import ChartPieTaskStatus from "@/components/ChartPieTaskStatus";
 import ChartBarPriority from "@/components/ChartBarPriority";
 import ChartLineTaskTrend from "@/components/ChartLineTaskTrend";
+import StatsReport from "@/components/StatsReport";
 
 const Reports = () => {
   const [dateRange, setDateRange] = useState({
@@ -26,6 +27,9 @@ const Reports = () => {
         dateRange={dateRange}
         onDateRangeChange={handleDateRangeChange}
       />
+
+      {/* <StatsReport stats={statusStats} /> */}
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <ChartPieTaskStatus
           statusStats={statusStats}
