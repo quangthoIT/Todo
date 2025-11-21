@@ -29,7 +29,7 @@ export function useReportsData(dateRange = null) {
     let filtered = tasks; // Khi chưa lọc mặc định dữ liệu là toàn bộ Task
 
     // ----- LỌC THEO KHOẢNG THỜI GIAN -----
-    
+
     // Khi có Từ ngày và Đến ngày
     if (dateRange?.from && dateRange?.to) {
       const startDate = new Date(dateRange.from);
@@ -80,12 +80,13 @@ export function useReportsData(dateRange = null) {
     // ----- TÍNH TOÁN THỐNG KÊ THEO XU HƯỚNG -----
     const trendData = generateTrendData(filtered, dateRange);
 
-    return { statusStats, priorityStats, trendData }; // Trả về 3 nhóm dữ liệu
+    return { statusStats, priorityStats, trendData, filtered }; // Trả về 3 nhóm dữ liệu
   }, [tasks, dateRange, now]);
 
   return stats; // Trả về object: { statusStats, priorityStats, trendData }
 }
 
+// ----- HÀM TÍNH TOÁN DỮ LIỆU THEO XU HƯỚNG -----
 function generateTrendData(tasks, dateRange) {
   if (tasks.length === 0) return [];
 

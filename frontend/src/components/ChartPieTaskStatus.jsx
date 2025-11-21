@@ -6,6 +6,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import EmptyStatsStatus from "./EmptyStatsStatus";
 
 const ChartPieTaskStatus = ({ statusStats, title }) => {
   const chartData = [
@@ -49,21 +50,10 @@ const ChartPieTaskStatus = ({ statusStats, title }) => {
   // ----- KHI KHOẢNG THỜI GIAN KHÔNG CÓ DỮ LIỆU -----
   if (total === 0) {
     return (
-      <Card>
-        <CardHeader>
-          <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          <div className="flex items-center justify-center h-[250px] text-muted-foreground">
-            <div className="text-center">
-              <p className="text-xl font-medium">No tasks found</p>
-              <p className="text-sm mt-1">
-                Try selecting a different date range
-              </p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <EmptyStatsStatus
+        title={title}
+        titleEmpty="No task status data available"
+      />
     );
   }
 

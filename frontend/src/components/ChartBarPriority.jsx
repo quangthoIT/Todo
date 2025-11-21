@@ -6,6 +6,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import EmptyStatsStatus from "./EmptyStatsStatus";
 
 const ChartBarPriority = ({ priorityStats, title }) => {
   const chartData = [
@@ -62,21 +63,7 @@ const ChartBarPriority = ({ priorityStats, title }) => {
   // ----- KHI KHOẢNG THỜI GIAN KHÔNG CÓ TASK -----
   if (totalTasks === 0) {
     return (
-      <Card>
-        <CardHeader>
-          <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          <div className="flex items-center justify-center h-[250px]">
-            <div className="text-center">
-              <p className="text-xl font-medium">No priority data available</p>
-              <p className="text-sm mt-1">
-                Try selecting a different date range
-              </p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <EmptyStatsStatus title={title} titleEmpty="No priority data available" />
     );
   }
 

@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,8 +6,9 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import EmptyStatsStatus from "./EmptyStatsStatus";
 
-const ChartLineTaskTrend = ({ trendData }) => {
+const ChartLineTaskTrend = ({ title, trendData }) => {
   const chartConfig = {
     created: {
       label: "Created",
@@ -23,23 +22,17 @@ const ChartLineTaskTrend = ({ trendData }) => {
 
   if (!trendData || trendData.length === 0) {
     return (
-      <Card>
-        <CardHeader>
-          <CardTitle>Task Trend</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex items-center justify-center h-[300px] text-muted-foreground">
-            <p>No trend data available</p>
-          </div>
-        </CardContent>
-      </Card>
+      <EmptyStatsStatus
+        title={title}
+        titleEmpty="No task trend data available"
+      />
     );
   }
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Task Trend</CardTitle>
+        <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
@@ -56,8 +49,13 @@ const ChartLineTaskTrend = ({ trendData }) => {
               tickLine={false}
               axisLine={false}
               tickMargin={8}
+              tick={{ fill: "black", fontSize: 14 }}
             />
-            <YAxis tickLine={false} axisLine={false} />
+            <YAxis
+              tickLine={false}
+              axisLine={false}
+              tick={{ fill: "black", fontSize: 14 }}
+            />
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
             <Line
               dataKey="created"
