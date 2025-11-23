@@ -64,7 +64,7 @@ const ChartBarWeekly = ({ title, filtered }) => {
             data={weekDays}
             layout="vertical"
             margin={{
-              left: 8,
+              left: 16,
               right: 8,
             }}
           >

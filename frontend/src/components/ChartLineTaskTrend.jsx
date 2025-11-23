@@ -39,7 +39,7 @@ const ChartLineTaskTrend = ({ title, trendData }) => {
           <LineChart
             data={trendData}
             margin={{
-              left: -30,
+              left: -24,
               right: 8,
             }}
           >

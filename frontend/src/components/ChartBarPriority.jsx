@@ -78,7 +78,7 @@ const ChartBarPriority = ({ priorityStats, title }) => {
           <BarChart
             data={chartData}
             margin={{
-              left: -30,
+              left: -24,
               right: 8,
             }}
           >

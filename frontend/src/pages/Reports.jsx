@@ -6,6 +6,7 @@ import ChartBarPriority from "@/components/ChartBarPriority";
 import ChartLineTaskTrend from "@/components/ChartLineTaskTrend";
 import StatsReport from "@/components/StatsReport";
 import ChartBarWeekly from "@/components/ChartBarWeekly";
+import ChartRadialCompletion from "@/components/ChartRadialCompletion";
 
 const Reports = () => {
   const [dateRange, setDateRange] = useState({
@@ -13,7 +14,7 @@ const Reports = () => {
     to: undefined,
   });
 
-  const { statusStats, priorityStats, trendData, filtered } =
+  const { statusStats, completionRate, priorityStats, trendData, filtered } =
     useReportsData(dateRange);
 
   const handleDateRangeChange = (range) => {
@@ -30,12 +31,17 @@ const Reports = () => {
         onDateRangeChange={handleDateRangeChange}
       />
 
-      {/* <StatsReport stats={statusStats} /> */}
+      <StatsReport stats={statusStats} />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <ChartPieTaskStatus
+        {/* <ChartPieTaskStatus
           statusStats={statusStats}
           title="Task Status Breakdown"
+        /> */}
+        <ChartRadialCompletion
+          title="Completion Rate"
+          statusStats={statusStats}
+          completionRate={completionRate}
         />
         <ChartBarPriority
           priorityStats={priorityStats}
@@ -44,7 +50,7 @@ const Reports = () => {
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <ChartLineTaskTrend trendData={trendData} title="Task Activity Trend" />
-        <ChartBarWeekly filtered={filtered} title="Tasks By Weekday" />
+        <ChartBarWeekly filtered={filtered} title="Task By Weekday" />
       </div>
     </div>
   );

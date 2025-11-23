@@ -77,10 +77,16 @@ export function useReportsData(dateRange = null) {
       urgent: filtered.filter((t) => t.priority === "Urgent").length,
     };
 
+    // === COMPLETION RATE ===
+    const completionRate =
+      filtered.length > 0
+        ? Math.round((completed.length / filtered.length) * 100)
+        : 0;
+
     // ----- TÍNH TOÁN THỐNG KÊ THEO XU HƯỚNG -----
     const trendData = generateTrendData(filtered, dateRange);
 
-    return { statusStats, priorityStats, trendData, filtered }; // Trả về 3 nhóm dữ liệu
+    return { statusStats, completionRate, priorityStats, trendData, filtered }; // Trả về 3 nhóm dữ liệu
   }, [tasks, dateRange, now]);
 
   return stats; // Trả về object: { statusStats, priorityStats, trendData }
