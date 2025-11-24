@@ -2,7 +2,12 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
 
-// const API_URL = "http://localhost:5001/api/users";
+// Tự động lấy API_URL từ biến môi trường
+const API_URL =
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.MODE === "production"
+    ? "/api"
+    : "http://localhost:5001/api");
 
 // Khởi tạo Context để chia sẻ trạng thái đăng nhập cho toàn app
 const AuthContext = createContext();
@@ -15,13 +20,10 @@ export const AuthProvider = ({ children }) => {
   // Gọi API đăng nhập
   const signIn = async (email, password) => {
     try {
-      const { data } = await axios.post(
-        "http://localhost:5001/api/users/login",
-        {
-          email,
-          password,
-        }
-      );
+      const { data } = await axios.post(`${API_URL}/users/login`, {
+        email,
+        password,
+      });
       // Lưu token vào localStorage
       localStorage.setItem("token", data.token);
       setToken(data.token);
@@ -36,14 +38,11 @@ export const AuthProvider = ({ children }) => {
   // Gọi API đăng ký
   const signUp = async (email, password, userName) => {
     try {
-      const { data } = await axios.post(
-        "http://localhost:5001/api/users/register",
-        {
-          email,
-          password,
-          userName,
-        }
-      );
+      const { data } = await axios.post(`${API_URL}/users/register`, {
+        email,
+        password,
+        userName,
+      });
       // Lưu token vào localStorage
       localStorage.setItem("token", data.token);
       setToken(data.token);
@@ -70,7 +69,7 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       // Gọi API lấy thông tin user theo token
       axios
-        .get("http://localhost:5001/api/users/profile", {
+        .get(`${API_URL}/users/profile`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         // Cập nhật thông tin user

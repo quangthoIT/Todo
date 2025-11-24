@@ -4,33 +4,53 @@ import cors from "cors";
 import { connectDB } from "./config/db.js";
 import userRouter from "./routes/userRoute.js";
 import taskRouter from "./routes/taskRoute.js";
+import path from "path";
 
-dotenv.config(); // Đọc biến môi trường
+dotenv.config(); // Đọc biến môi trường từ file .env
 
-const PORT = process.env.PORT || 5001; // Cấu hình cổng
+const PORT = process.env.PORT || 5001; // Cổng mặc định nếu không có trong .env
 
-const app = express(); // Khởi tạo app
+const __dirname = path.resolve(); // Lấy đường dẫn thư mục gốc
+
+const app = express(); // Khởi tạo server
 
 app.use(express.json()); // Middleware để phân tích JSON
 
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true,
+if (process.env.NODE_ENV !== "production") {
+  app.use(
+    cors({
+      origin: "http://localhost:5173",
+      credentials: true,
+    })
+  );
+}
+
+// API routes
+app.use("/api/users", userRouter);
+app.use("/api/tasks", taskRouter);
+
+if (process.env.NODE_ENV === "production") {
+  // Phục vụ tệp tĩnh từ thư mục build của frontend
+  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+
+  // Bắt tất cả các route và phục vụ index.html
+  app.use((req, res, next) => {
+    // Chỉ serve index.html cho non-API requests
+    if (!req.path.startsWith("/api")) {
+      res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+    } else {
+      next();
+    }
+  });
+} else {
+  app.get("/", (req, res) => {
+    res.send("API is running...");
+  });
+}
+
+// Kết nối DB và khởi động server
+connectDB().then(() =>
+  app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
   })
 );
-
-connectDB(); // Kết nối cơ sở dữ liệu
-
-// Routes
-app.use("/api/users", userRouter); // Route người dùng
-app.use("/api/tasks", taskRouter); // Route tasks
-// Định nghĩa route cơ bản
-app.get("/", (req, res) => {
-  res.send("API is running...");
-});
-
-// Khởi động máy chủ
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
