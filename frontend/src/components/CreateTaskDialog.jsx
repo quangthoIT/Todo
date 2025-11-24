@@ -20,12 +20,26 @@ import {
 } from "@/components/ui/select";
 import { toast } from "sonner";
 
-export function CreateTaskDialog({
-  isOpen,
-  onClose,
-  onSubmit,
-  task: editingTask,
-}) {
+// Hàm chuyển datetime-local sang ISO string (giữ nguyên timezone địa phương)
+const localDateTimeToISO = (dateTimeLocalString) => {
+  if (!dateTimeLocalString) return null;
+  const date = new Date(dateTimeLocalString);
+  return date.toISOString();
+};
+
+// Hàm chuyển ISO string sang datetime-local format để hiển thị trong input
+const isoToLocalDateTime = (isoString) => {
+  if (!isoString) return "";
+  const date = new Date(isoString);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  return `${year}-${month}-${day}T${hours}:${minutes}`;
+};
+
+const CreateTaskDialog = ({ isOpen, onClose, onSubmit, task: editingTask }) => {
   const [task, setTask] = useState({
     title: "",
     description: "",
@@ -40,8 +54,8 @@ export function CreateTaskDialog({
         title: editingTask.title || "",
         description: editingTask.description || "",
         priority: editingTask.priority || "Medium",
-        startDate: editingTask.startDate || "",
-        dueDate: editingTask.dueDate || "",
+        startDate: isoToLocalDateTime(editingTask.startDate),
+        dueDate: isoToLocalDateTime(editingTask.dueDate),
       });
     } else {
       setTask({
@@ -59,6 +73,7 @@ export function CreateTaskDialog({
     e.preventDefault();
     const now = new Date();
 
+    // Chuyển datetime-local string sang Date object
     const start = task.startDate ? new Date(task.startDate) : now;
     const due = task.dueDate ? new Date(task.dueDate) : null;
 
@@ -74,7 +89,15 @@ export function CreateTaskDialog({
       return;
     }
 
-    onSubmit({ ...task, _id: editingTask?._id });
+    // Chuyển sang ISO string để gửi lên server
+    const taskData = {
+      ...task,
+      startDate: localDateTimeToISO(task.startDate) || now.toISOString(),
+      dueDate: localDateTimeToISO(task.dueDate),
+      _id: editingTask?._id,
+    };
+
+    onSubmit(taskData);
 
     setTask({
       title: "",
@@ -85,7 +108,6 @@ export function CreateTaskDialog({
     });
     onClose();
   };
-
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[600px]">
@@ -150,6 +172,7 @@ export function CreateTaskDialog({
             type="datetime-local"
             value={task.dueDate}
             onChange={(e) => setTask({ ...task, dueDate: e.target.value })}
+            required
           />
 
           {/* Create Button & Cancel Button */}
@@ -169,4 +192,6 @@ export function CreateTaskDialog({
       </DialogContent>
     </Dialog>
   );
-}
+};
+
+export default CreateTaskDialog;

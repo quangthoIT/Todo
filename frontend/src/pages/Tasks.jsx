@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useTasks } from "@/hooks/useTasks";
-import { CreateTaskDialog } from "../components/CreateTaskDialog";
 import TaskList from "@/components/TaskList";
 import TaskFilterBar from "@/components/TaskFilterBar";
 import HeaderPage from "@/components/HeaderPage";
 import TaskPagination from "@/components/TaskPagination";
+import CreateTaskDialog from "@/components/CreateTaskDialog";
 
 const Tasks = () => {
   const { tasks, createTask, updateTask, deleteTask } = useTasks();

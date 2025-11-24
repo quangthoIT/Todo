@@ -2,7 +2,7 @@ import userModel from "../models/userModel.js";
 import validator from "validator";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { sendMailForgotPassword } from "../utils/sendmailForgotPassword.js";
+import { sendMailForgotPassword } from "../utils/sendMailForgotPassword.js";
 import otpGenerator from "otp-generator";
 
 // ----- CẤU HÌNH JWT -----

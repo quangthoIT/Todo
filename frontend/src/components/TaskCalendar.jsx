@@ -8,7 +8,8 @@ import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import TaskDetailDialog from "./TaskDetailDialog";
 import { useTasks } from "@/hooks/useTasks";
-import { CreateTaskDialog } from "./CreateTaskDialog";
+import CreateTaskDialog from "./CreateTaskDialog";
+
 
 const localizer = momentLocalizer(moment);
 

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Plus } from "lucide-react";
 import { useTasks } from "@/hooks/useTasks";
-import { CreateTaskDialog } from "@/components/CreateTaskDialog";
 import TaskCalendar from "@/components/TaskCalendar";
 import HeaderPage from "@/components/HeaderPage";
+import CreateTaskDialog from "@/components/CreateTaskDialog";
 
 const Calendar = () => {
   const { tasks, createTask, loading } = useTasks();
