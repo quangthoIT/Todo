@@ -8,11 +8,11 @@ import {
 } from "lucide-react";
 import StatsCard from "./StatsCard";
 
-const StatsReport = ({ stats }) => {
+const StatsReport = ({ statusStats }) => {
   const statCards = [
     {
       title: "Total Tasks",
-      value: stats.totalTasks,
+      value: statusStats.totalTasks,
       icon: TrendingUp,
       colorTitle: "text-gray-800",
       colorValueIcon: "text-gray-900",
@@ -20,7 +20,7 @@ const StatsReport = ({ stats }) => {
     },
     {
       title: "Pending",
-      value: stats.pending,
+      value: statusStats.pending,
       icon: Hourglass,
       colorTitle: "text-gray-800",
       colorValueIcon: "text-amber-600",
@@ -28,7 +28,7 @@ const StatsReport = ({ stats }) => {
     },
     {
       title: "In Progress",
-      value: stats.inProgress,
+      value: statusStats.inProgress,
       icon: Clock,
       colorTitle: "text-gray-800",
       colorValueIcon: "text-blue-600",
@@ -36,7 +36,7 @@ const StatsReport = ({ stats }) => {
     },
     {
       title: "Completed",
-      value: stats.completed,
+      value: statusStats.completed,
       icon: CheckCircle2,
       colorTitle: "text-gray-800",
       colorValueIcon: "text-green-600",
@@ -44,7 +44,7 @@ const StatsReport = ({ stats }) => {
     },
     {
       title: "Overdue",
-      value: stats.overdue,
+      value: statusStats.overdue,
       icon: AlertCircle,
       colorTitle: "text-gray-800",
       colorValueIcon: "text-red-600",

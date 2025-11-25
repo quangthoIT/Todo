@@ -7,6 +7,7 @@ import ChartLineTaskTrend from "@/components/ChartLineTaskTrend";
 import StatsReport from "@/components/StatsReport";
 import ChartBarWeekly from "@/components/ChartBarWeekly";
 import ChartRadialCompletion from "@/components/ChartRadialCompletion";
+import ExportButton from "@/components/ExportButton";
 
 const Reports = () => {
   const [dateRange, setDateRange] = useState({
@@ -29,9 +30,16 @@ const Reports = () => {
         showDateRangePicker={true}
         dateRange={dateRange}
         onDateRangeChange={handleDateRangeChange}
+        rightContent={
+          <ExportButton
+            statusStats={statusStats}
+            filtered={filtered}
+            dateRange={dateRange}
+          />
+        }
       />
 
-      <StatsReport stats={statusStats} />
+      <StatsReport statusStats={statusStats} />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* <ChartPieTaskStatus
@@ -51,6 +59,14 @@ const Reports = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <ChartLineTaskTrend trendData={trendData} title="Task Activity Trend" />
         <ChartBarWeekly filtered={filtered} title="Task By Weekday" />
+      </div>
+
+      <div className="flex justify-end">
+        <ExportButton
+          statusStats={statusStats}
+          filtered={filtered}
+          dateRange={dateRange}
+        />
       </div>
     </div>
   );
