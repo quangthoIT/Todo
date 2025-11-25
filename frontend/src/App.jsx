@@ -15,6 +15,7 @@ import Report from "./pages/Reports";
 import Organization from "./pages/Organization";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import Profile from "./pages/Profile";
 
 const App = () => {
   return (
@@ -70,6 +71,7 @@ const App = () => {
               <Route path="calendar" element={<Calendar />} />
               <Route path="organization" element={<Organization />} />
               <Route path="reports" element={<Report />} />
+              <Route path="profile" element={<Profile />} />
             </Route>
 
             <Route path="*" element={<NotFound />} />

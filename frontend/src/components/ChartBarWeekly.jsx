@@ -17,14 +17,14 @@ const ChartBarWeekly = ({ title, filtered }) => {
 
   // Khởi tạo data cho 7 ngày trong tuần
   const weekDays = [
-    { day: "Monday", count: 0, fill: "var(--chart-weekly)" },
-    { day: "Tuesday", count: 0, fill: "var(--chart-weekly)" },
-    { day: "Wednesday", count: 0, fill: "var(--chart-weekly)" },
-    { day: "Thursday", count: 0, fill: "var(--chart-weekly)" },
-    { day: "Friday", count: 0, fill: "var(--chart-weekly)" },
-    { day: "Saturday", count: 0, fill: "var(--chart-weekly)" },
-    { day: "Sunday", count: 0, fill: "var(--chart-weekly)" },
-  ];
+  { day: "Monday", short: "Mon", count: 0, fill: "var(--chart-weekly)" },
+  { day: "Tuesday", short: "Tue", count: 0, fill: "var(--chart-weekly)" },
+  { day: "Wednesday", short: "Wed", count: 0, fill: "var(--chart-weekly)" },
+  { day: "Thursday", short: "Thu", count: 0, fill: "var(--chart-weekly)" },
+  { day: "Friday", short: "Fri", count: 0, fill: "var(--chart-weekly)" },
+  { day: "Saturday", short: "Sat", count: 0, fill: "var(--chart-weekly)" },
+  { day: "Sunday", short: "Sun", count: 0, fill: "var(--chart-weekly)" },
+];
 
   // Đếm số tasks theo ngày
   if (filtered && filtered.length > 0) {
@@ -64,14 +64,14 @@ const ChartBarWeekly = ({ title, filtered }) => {
             data={weekDays}
             layout="vertical"
             margin={{
-              left: 16,
+              left: -24,
               right: 8,
             }}
           >
             <CartesianGrid horizontal={false} />
             <XAxis type="number" tick={{ fill: "black", fontSize: 14 }} />
             <YAxis
-              dataKey="day"
+              dataKey="short"
               type="category"
               tickLine={false}
               tickMargin={10}
@@ -86,8 +86,8 @@ const ChartBarWeekly = ({ title, filtered }) => {
                   hideLabel
                   formatter={(value, name, props) => (
                     <div className="flex items-center gap-2">
-                      <span className="font-medium">{props.payload.day}:</span>
-                      <span className="font-bold">{value} tasks</span>
+                      <span className="font-semibold">{props.payload.day}:</span>
+                      <span>{value} tasks</span>
                     </div>
                   )}
                 />
