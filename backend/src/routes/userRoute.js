@@ -12,6 +12,7 @@ import {
   updateUserAvatar,
 } from "../controllers/userController.js";
 import { authMiddleware } from "../middleware/auth.js";
+import { uploadAvatarMiddleware } from "../middleware/upload.js";
 
 // Tạo router cho người dùng
 const userRouter = express.Router();
@@ -24,7 +25,12 @@ userRouter.post("/register", registerUser);
 userRouter.get("/profile", authMiddleware, getUserProfile);
 userRouter.put("/profile", authMiddleware, updateUserProfile);
 userRouter.put("/change-password", authMiddleware, changeUserPassword);
-userRouter.put("/avatar", authMiddleware, updateUserAvatar);
+userRouter.put(
+  "/avatar",
+  authMiddleware,
+  uploadAvatarMiddleware,
+  updateUserAvatar
+);
 userRouter.delete("/profile", authMiddleware, deleteUserAccount);
 
 // Route quản lý tài khoản người dùng

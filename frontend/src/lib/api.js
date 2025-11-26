@@ -51,10 +51,24 @@ export const api = {
     },
 
     updateAvatar: async (avatar) => {
+      const isFile = avatar instanceof File;
+      let headers = getAuthHeaders();
+      let body;
+
+      if (isFile) {
+        delete headers["Content-Type"];
+
+        const formData = new FormData();
+        formData.append("avatar", avatar);
+        body = formData;
+      } else {
+        body = JSON.stringify({ avatar: avatar });
+      }
+
       const response = await fetch(`${API_URL}/users/avatar`, {
         method: "PUT",
-        headers: getAuthHeaders(),
-        body: JSON.stringify({ avatar }),
+        headers: headers,
+        body: body,
       });
       const data = await response.json();
       if (!response.ok)

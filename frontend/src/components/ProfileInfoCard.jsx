@@ -19,13 +19,13 @@ const ProfileInfoCard = ({
           <div className="flex items-center gap-3">
             <User className="w-6 h-6 text-blue-600" />
             <h2 className="text-xl font-semibold text-gray-900">
-              Profile Information
+              Profile Info
             </h2>
           </div>
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={onUpdate} className="space-y-6 mt-3">
+        <form onSubmit={onUpdate} className="space-y-6">
           <div className="space-y-2">
             <Label>User Name</Label>
             <Input

@@ -31,19 +31,19 @@ const Profile = () => {
     }
   }, [user]);
 
-  const handleUpdateAvatar = async (e) => {
-    e.preventDefault();
-    if (!avatar.trim()) return toast.error("Please enter avatar URL");
+  const handleUpdateAvatar = async (dataToSubmit) => {
+    if (!dataToSubmit)
+      return toast.error("Please select an image or enter URL");
 
     setLoading(true);
     try {
-      const data = await api.users.updateAvatar(avatar.trim());
+      const data = await api.users.updateAvatar(dataToSubmit);
       if (data.success) {
         updateUser(data.user);
         toast.success("Update avatar successfully!");
       }
     } catch (error) {
-      toast.error("Failed to update avatar");
+      toast.error(error.message || "Failed to update avatar");
     } finally {
       setLoading(false);
     }
