@@ -1,4 +1,5 @@
 import userModel from "../models/userModel.js";
+import taskModel from "../models/taskModel.js";
 import validator from "validator";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -121,7 +122,9 @@ export const loginUser = async (req, res) => {
 export const getUserProfile = async (req, res) => {
   try {
     // req.user được lấy từ middleware xác thực token
-    const user = await userModel.findById(req.user.id).select("userName email");
+    const user = await userModel
+      .findById(req.user._id)
+      .select("userName email avatar");
 
     // Kiểm tra người dùng tồn tại hay không
     if (!user) {
@@ -138,38 +141,61 @@ export const getUserProfile = async (req, res) => {
 
 // ----- CẬP NHẬT THÔNG TIN NGƯỜI DÙNG -----
 export const updateUserProfile = async (req, res) => {
-  const { userName, email } = req.body;
+  const { userName } = req.body;
+
   // Kiểm tra dữ liệu đầu vào
-  if (!userName || !email || !validator.isEmail(email)) {
+  if (!userName || userName.trim().length === 0) {
     return res
       .status(400)
-      .json({ success: false, message: "Invalid user information" });
+      .json({ success: false, message: "Username is required" });
   }
 
   try {
-    // Kiểm tra email đã được sử dụng bởi người dùng khác chưa
-    const exists = await userModel.findOne({
-      email,
-      _id: { $ne: req.user.id },
-    });
+    // Cập nhật thông tin người dùng (không cho phép đổi email)
+    const user = await userModel.findByIdAndUpdate(
+      req.user._id,
+      { userName: userName.trim() },
+      { new: true, runValidators: true, select: "userName email avatar" }
+    );
 
-    // Khi email được sử dụng
-    if (exists) {
+    if (!user) {
       return res
-        .status(409)
-        .json({ success: false, message: "Email is already in use" });
+        .status(404)
+        .json({ success: false, message: "User not found" });
     }
 
-    // Cập nhật thông tin người dùng
-    const user = await userModel.findByIdAndUpdate(
-      req.user.id,
-      { userName, email },
-      { new: true, runValidators: true, select: "userName email" }
-    );
     res.json({ success: true, user });
   } catch (error) {
-    console.log("Error updating user profile:", error);
-    res.status(500).json({ success: false, message: "server error" });
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+// ----- CẬP NHẬT AVATAR -----
+export const updateUserAvatar = async (req, res) => {
+  const { avatar } = req.body;
+
+  if (!avatar) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Avatar URL is required" });
+  }
+
+  try {
+    const user = await userModel.findByIdAndUpdate(
+      req.user._id,
+      { avatar },
+      { new: true, runValidators: true, select: "userName email avatar" }
+    );
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    res.json({ success: true, user });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error" });
   }
 };
 
@@ -186,7 +212,7 @@ export const changeUserPassword = async (req, res) => {
 
   try {
     // Lấy người dùng theo ID từ req.user
-    const user = await userModel.findById(req.user.id).select("password");
+    const user = await userModel.findById(req.user._id).select("password");
     if (!user) {
       return res
         .status(404)
@@ -285,6 +311,7 @@ export const resetPassword = async (req, res) => {
     });
   }
 
+  // Kiểm tra độ dài mật khẴu
   if (password.length < 8) {
     return res.status(400).json({
       success: false,
@@ -295,6 +322,7 @@ export const resetPassword = async (req, res) => {
   try {
     const user = await userModel.findOne({ email });
 
+    // Kiểm tra người dùng có tồn tại hay không
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -310,6 +338,7 @@ export const resetPassword = async (req, res) => {
       });
     }
 
+    // Kiểm tra thời gian mã OTP
     if (Date.now() > user.otpExpiresTime) {
       return res.status(400).json({
         success: false,
@@ -341,8 +370,13 @@ export const deleteUserAccount = async (req, res) => {
   try {
     // Lấy ID người dùng từ req.user
     const userId = req.user._id;
+
+    // Xóa tất cả tasks của user trước
+    await taskModel.deleteMany({ createdBy: userId });
+
     // Xóa người dùng khỏi cơ sở dữ liệu
     const deletedUser = await userModel.findByIdAndDelete(userId);
+
     // Kiểm tra nếu người dùng không tồn tại
     if (!deletedUser) {
       return res.status(404).json({

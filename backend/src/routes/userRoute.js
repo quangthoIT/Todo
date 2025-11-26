@@ -9,6 +9,7 @@ import {
   forgotPassword,
   verifyOTP,
   resetPassword,
+  updateUserAvatar,
 } from "../controllers/userController.js";
 import { authMiddleware } from "../middleware/auth.js";
 
@@ -22,7 +23,8 @@ userRouter.post("/register", registerUser);
 // Các route cần xác thực
 userRouter.get("/profile", authMiddleware, getUserProfile);
 userRouter.put("/profile", authMiddleware, updateUserProfile);
-userRouter.put("/password", authMiddleware, changeUserPassword);
+userRouter.put("/change-password", authMiddleware, changeUserPassword);
+userRouter.put("/avatar", authMiddleware, updateUserAvatar);
 userRouter.delete("/profile", authMiddleware, deleteUserAccount);
 
 // Route quản lý tài khoản người dùng

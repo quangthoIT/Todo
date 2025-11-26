@@ -1,152 +1,159 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import {
-  User,
-  Camera,
-  Lock,
-  Loader2,
-  Trash2,
-  AlertTriangle,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { api } from "../lib/api";
+import HeaderPage from "@/components/HeaderPage";
+import ProfileInfoCard from "@/components/ProfileInfoCard";
+import AvatarCard from "@/components/AvatarCard";
+import PasswordCard from "@/components/PasswordCard";
+import DeleteAccountCard from "@/components/DeleteAccountCard";
+import DeleteConfirmModal from "@/components/DeleteConfirmModal";
+import { toast } from "sonner";
 
 const Profile = () => {
+  const { user, updateUser, logout } = useAuth();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+
+  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [avatar, setAvatar] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  useEffect(() => {
+    if (user) {
+      setUserName(user.userName || "");
+      setEmail(user.email || "");
+      setAvatar(user.avatar || "");
+    }
+  }, [user]);
+
+  const handleUpdateAvatar = async (e) => {
+    e.preventDefault();
+    if (!avatar.trim()) return toast.error("Please enter avatar URL");
+
+    setLoading(true);
+    try {
+      const data = await api.users.updateAvatar(avatar.trim());
+      if (data.success) {
+        updateUser(data.user);
+        toast.success("Update avatar successfully!");
+      }
+    } catch (error) {
+      toast.error("Failed to update avatar");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleUpdateProfile = async (e) => {
+    e.preventDefault();
+    if (!userName.trim()) return toast.error("Please enter username");
+
+    setLoading(true);
+    try {
+      const data = await api.users.updateProfile(userName.trim());
+      if (data.success) {
+        updateUser(data.user);
+        toast.success("Update profile successfully!");
+      }
+    } catch (error) {
+      toast.error("Failed to update profile");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleChangePassword = async (e) => {
+    e.preventDefault();
+    if (!oldPassword || !newPassword || !confirmPassword)
+      return toast.error("Please enter all required fields");
+    if (newPassword.length < 8)
+      return toast.error("Password must be at least 8 characters long");
+    if (newPassword !== confirmPassword)
+      return toast.error("Passwords do not match");
+
+    setLoading(true);
+    try {
+      const data = await api.users.changePassword(oldPassword, newPassword);
+      if (data.success) {
+        setOldPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
+        toast.success("Change password successfully!");
+      }
+    } catch (error) {
+      toast.error("Failed to change password");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    setLoading(true);
+    try {
+      const data = await api.users.deleteAccount();
+      if (data.success) {
+        setShowDeleteDialog(false);
+        toast.success("Delete account successfully!");
+        setTimeout(() => {
+          logout();
+          navigate("/login");
+        }, 500);
+      }
+    } catch (error) {
+      toast.error("Failed to delete account");
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Profile</h1>
+    <div className="space-y-4">
+      <HeaderPage
+        title="Profile Settings"
+        description="Manage and update your personal information"
+        showButton={false}
+      />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <Camera className="w-5 h-5 text-blue-600" />
-              <h2 className="text-xl font-semibold text-gray-800">Avatar</h2>
-            </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <AvatarCard
+          avatar={avatar}
+          setAvatar={setAvatar}
+          onUpdate={handleUpdateAvatar}
+          loading={loading}
+        />
 
-            <div className="flex flex-col items-center mb-4">
-              <div className="w-32 h-32 rounded-full bg-gray-200 flex items-center justify-center mb-4 overflow-hidden">
-                <User className="w-16 h-16 text-gray-400" />
-              </div>
-            </div>
+        <ProfileInfoCard
+          userName={userName}
+          setUserName={setUserName}
+          email={email}
+          onUpdate={handleUpdateProfile}
+          loading={loading}
+        />
 
-            <form>
-              <input
-                type="text"
-                placeholder="Nhập URL ảnh đại diện"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg mb-4 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-              <Button type="submit" className="w-full rounded-lg" size="lg">
-                Update Avatar
-              </Button>
-            </form>
-          </div>
+        <PasswordCard
+          oldPassword={oldPassword}
+          setOldPassword={setOldPassword}
+          newPassword={newPassword}
+          setNewPassword={setNewPassword}
+          confirmPassword={confirmPassword}
+          setConfirmPassword={setConfirmPassword}
+          onChangePassword={handleChangePassword}
+          loading={loading}
+        />
 
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <User className="w-5 h-5 text-blue-600" />
-              <h2 className="text-xl font-semibold text-gray-800">Profile</h2>
-            </div>
-
-            <form>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  User Name
-                </label>
-                <input
-                  type="text"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  disabled
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-500 cursor-not-allowed"
-                />
-              </div>
-
-              <Button type="submit" className="w-full rounded-lg" size="lg">
-                Update Profile
-              </Button>
-            </form>
-          </div>
-
-          <div className="bg-white rounded-lg shadow p-6 md:col-span-2">
-            <div className="flex items-center gap-3 mb-4">
-              <Lock className="w-5 h-5 text-blue-600" />
-              <h2 className="text-xl font-semibold text-gray-800">
-                Change Password
-              </h2>
-            </div>
-
-            <form className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Old Password
-                </label>
-                <input
-                  type="password"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Enter old password"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  New Password
-                </label>
-                <input
-                  type="password"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Enter new password"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Confirm New Password
-                </label>
-                <input
-                  type="password"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Confirm new password"
-                />
-              </div>
-
-              <div className="md:col-span-3">
-                <Button type="submit" className="w-full rounded-lg" size="lg">
-                  Change Password
-                </Button>
-              </div>
-            </form>
-          </div>
-
-          <div className="bg-white rounded-lg shadow p-6 md:col-span-2 border-2 border-red-200">
-            <div className="flex items-center gap-3 mb-4">
-              <Trash2 className="w-5 h-5 text-red-600" />
-              <h2 className="text-xl font-semibold text-red-800">
-                Delete Account
-              </h2>
-            </div>
-            <p className="text-sm text-gray-600 mb-4">
-              Delete your account and all associated data. This action is
-              irreversible.
-            </p>
-            <Button
-              type="submit"
-              className="rounded-lg bg-red-500 hover:bg-red-600"
-              size="lg"
-            >
-              Update Avatar
-            </Button>
-          </div>
-        </div>
+        <DeleteAccountCard onRequestDelete={() => setShowDeleteDialog(true)} />
       </div>
+
+      <DeleteConfirmModal
+        isOpen={showDeleteDialog}
+        onClose={() => setShowDeleteDialog(false)}
+        onConfirm={handleDeleteAccount}
+        loading={loading}
+      />
     </div>
   );
 };

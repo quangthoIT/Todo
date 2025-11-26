@@ -37,6 +37,55 @@ export const api = {
     },
   },
 
+  users: {
+    updateProfile: async (userName) => {
+      const response = await fetch(`${API_URL}/users/profile`, {
+        method: "PUT",
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ userName }),
+      });
+      const data = await response.json();
+      if (!response.ok)
+        throw new Error(data.message || "Failed to update profile");
+      return data;
+    },
+
+    updateAvatar: async (avatar) => {
+      const response = await fetch(`${API_URL}/users/avatar`, {
+        method: "PUT",
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ avatar }),
+      });
+      const data = await response.json();
+      if (!response.ok)
+        throw new Error(data.message || "Failed to update avatar");
+      return data;
+    },
+
+    changePassword: async (currentPassword, newPassword) => {
+      const response = await fetch(`${API_URL}/users/change-password`, {
+        method: "PUT",
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ currentPassword, newPassword }),
+      });
+      const data = await response.json();
+      if (!response.ok)
+        throw new Error(data.message || "Failed to change password");
+      return data;
+    },
+
+    deleteAccount: async () => {
+      const response = await fetch(`${API_URL}/users/profile`, {
+        method: "DELETE",
+        headers: getAuthHeaders(),
+      });
+      const data = await response.json();
+      if (!response.ok)
+        throw new Error(data.message || "Failed to delete account");
+      return data;
+    },
+  },
+
   tasks: {
     getAll: async () => {
       const response = await fetch(`${API_URL}/tasks`, {
