@@ -19,6 +19,7 @@ import {
   SelectField,
 } from "@/components/ui/select";
 import { toast } from "sonner";
+import { Label } from "./ui/label";
 
 // Hàm chuyển datetime-local sang ISO string (giữ nguyên timezone địa phương)
 const localDateTimeToISO = (dateTimeLocalString) => {
@@ -112,7 +113,9 @@ const CreateTaskDialog = ({ isOpen, onClose, onSubmit, task: editingTask }) => {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>{editingTask ? "Edit Task" : "Create Task"}</DialogTitle>
+          <DialogTitle className="text-gray-900 dark:text-gray-100">
+            {editingTask ? "Edit Task" : "Create Task"}
+          </DialogTitle>
           <DialogDescription>
             {editingTask
               ? "Update the task details below"
@@ -123,25 +126,26 @@ const CreateTaskDialog = ({ isOpen, onClose, onSubmit, task: editingTask }) => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Task Title */}
+          <Label>Task Title</Label>
           <Input
             type="text"
             placeholder="Task Title"
-            label="Task Title"
             value={task.title}
             onChange={(e) => setTask({ ...task, title: e.target.value })}
             required
           />
 
           {/* Task Description */}
+          <Label>Description</Label>
           <Textarea
-            label="Description"
             placeholder="Task Description"
             value={task.description}
             onChange={(e) => setTask({ ...task, description: e.target.value })}
           />
 
           {/* Task Priority */}
-          <SelectField label="Priority">
+          <Label>Priority</Label>
+          <SelectField>
             <Select
               value={task.priority}
               onValueChange={(value) => setTask({ ...task, priority: value })}
@@ -159,16 +163,16 @@ const CreateTaskDialog = ({ isOpen, onClose, onSubmit, task: editingTask }) => {
           </SelectField>
 
           {/* Task Start Date */}
+          <Label>Start Date & Time</Label>
           <Input
-            label="Start Date & Time"
             type="datetime-local"
             value={task.startDate}
             onChange={(e) => setTask({ ...task, startDate: e.target.value })}
           />
 
           {/* Task Due Date */}
+          <Label>Due Date & Time</Label>
           <Input
-            label="Due Date & Time"
             type="datetime-local"
             value={task.dueDate}
             onChange={(e) => setTask({ ...task, dueDate: e.target.value })}

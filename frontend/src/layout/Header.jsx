@@ -12,9 +12,10 @@ import { useNavigate } from "react-router-dom";
 import UserMenu from "../components/UserMenu";
 import { api } from "@/lib/api";
 import { toast } from "sonner";
+import { useTheme } from "@/contexts/ThemeContext";
 
 const Header = ({ onMenuClick }) => {
-  const [theme, setTheme] = useState("light");
+  const { theme, toggleTheme } = useTheme();
   const [notifications, setNotifications] = useState(false);
   const navigate = useNavigate();
 
@@ -36,10 +37,10 @@ const Header = ({ onMenuClick }) => {
     checkNotifications();
     const interval = setInterval(checkNotifications, 30 * 1000);
     return () => clearInterval(interval);
-  });
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 bg-white shadow-sm border-b border-gray-200 py-4 px-8 md:px-12 md:py-3">
+    <header className="sticky top-0 z-50 bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-600 py-4 px-8 md:px-12 md:py-3">
       <div className="flex items-center justify-between max-w-7xl mx-auto">
         {/* Logo */}
         <div
@@ -52,7 +53,7 @@ const Header = ({ onMenuClick }) => {
           </div>
           {/* Brand */}
           <div>
-            <h1 className="hidden md:block text-2xl font-bold text-gray-900">
+            <h1 className="hidden md:block text-2xl font-bold text-gray-900 dark:text-gray-100">
               Todo
             </h1>
           </div>
@@ -69,10 +70,9 @@ const Header = ({ onMenuClick }) => {
 
         {/* Theme - Notification - Infomation */}
         <div className="flex items-center justify-between gap-1 md:gap-3">
-          {/* Chuyển đổi giao diện sáng/tối */}
           <button
-            onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-            className="p-2 rounded-xl hover:bg-blue-50 transition cursor-pointer"
+            onClick={toggleTheme}
+            className="p-2 rounded-xl hover:bg-blue-50 dark:hover:bg-gray-800 dark:text-gray-100 transition cursor-pointer"
           >
             {theme === "light" ? (
               <Moon className="w-6 h-6" />
@@ -83,14 +83,14 @@ const Header = ({ onMenuClick }) => {
 
           {/* Thông báo */}
           <button
-            className="p-2 rounded-xl hover:bg-blue-50 transition cursor-pointer relative"
+            className="p-2 rounded-xl dark:text-gray-100 hover:bg-blue-50 dark:hover:bg-gray-800 transition cursor-pointer relative"
             onClick={() => {
               navigate("/notifications");
             }}
           >
             <BellIcon className="w-6 h-6" />
             {notifications && (
-              <div className="absolute top-1 right-1 h-2.5 w-2.5 rounded-full bg-red-500   animate-pulse"></div>
+              <div className="absolute top-1 right-1 h-2.5 w-2.5 rounded-full bg-red-500 animate-pulse"></div>
             )}
           </button>
 
@@ -101,10 +101,10 @@ const Header = ({ onMenuClick }) => {
 
           {/* Nút Menu cho Mobile */}
           <button
-            className="p-2 rounded-lg hover:bg-blue-50 md:hidden cursor-pointer"
+            className="p-2 rounded-lg md:hidden cursor-pointer"
             onClick={onMenuClick}
           >
-            <Menu className="w-6 h-6" />
+            <Menu className="w-6 h-6 text-gray-900 dark:text-gray-100" />
           </button>
         </div>
       </div>

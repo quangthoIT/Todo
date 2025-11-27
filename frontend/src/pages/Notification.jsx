@@ -3,6 +3,7 @@ import HeaderPage from "@/components/HeaderPage";
 import NotificationCard from "@/components/NotificationCard";
 import { api } from "@/lib/api";
 import { toast } from "sonner";
+import { Bell } from "lucide-react";
 
 const Notification = () => {
   const [notifications, setNotifications] = useState([]);
@@ -44,7 +45,12 @@ const Notification = () => {
       />
 
       <NotificationCard
-        title="Deadline Alerts"
+        title={
+          <div className="flex items-center gap-3">
+            <Bell className="w-6 h-6 text-blue-600 dark:text-gray-100" />
+            <span>Deadline Alerts</span>
+          </div>
+        }
         notifications={notifications}
         onRefresh={fetchNotifications}
       />

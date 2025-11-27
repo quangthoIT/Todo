@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Card, CardContent, CardHeader } from "./ui/card";
 import { Button } from "./ui/button";
 import { Camera, User, Upload, LinkIcon, ImagePlus } from "lucide-react";
 import { Input } from "./ui/input";
@@ -47,12 +47,12 @@ const AvatarCard = ({ avatar, setAvatar, onUpdate, loading }) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>
-          <div className="flex items-center gap-3">
-            <Camera className="w-6 h-6 text-blue-600" />
-            <h2 className="text-xl font-semibold text-gray-900">Avatar</h2>
-          </div>
-        </CardTitle>
+        <div className="flex items-center gap-3">
+          <Camera className="w-6 h-6 text-blue-600 dark:text-gray-100" />
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+            Avatar
+          </h2>
+        </div>
       </CardHeader>
       <CardContent>
         <div className="flex items-center justify-center mb-4">

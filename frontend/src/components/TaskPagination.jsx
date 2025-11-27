@@ -33,8 +33,8 @@ const TaskPagination = ({ currentPage, totalPages, onPageChange }) => {
               isActive={page === currentPage}
               className={
                 page === currentPage
-                  ? "bg-blue-500 text-white hover:bg-blue-600"
-                  : "cursor-pointer"
+                  ? "bg-blue-500 text-gray-100 hover:bg-blue-600 border-none"
+                  : "cursor-pointer text-gray-900 dark:text-gray-100 hover:bg-blue-600"
               }
             >
               {page}

@@ -62,7 +62,7 @@ const ChartPieTaskStatus = ({ statusStats, title }) => {
   return (
     <Card className="flex flex-col">
       <CardHeader>
-        <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">{title}</h2>
       </CardHeader>
 
       <CardContent className="space-y-3">

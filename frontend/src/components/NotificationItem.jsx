@@ -39,35 +39,38 @@ const NotificationItem = ({ task }) => {
   const timeRemaining = getTimeRemaining(task.dueDate);
 
   const statusInfo = isOverdue
-    ? { text: "Overdue", color: "text-red-600" }
-    : { text: "In progress", color: "text-blue-600" };
+    ? { text: "Overdue", color: "text-red-500" }
+    : { text: "In progress", color: "text-blue-500" };
 
   return (
     <div
-      className={`px-2 py-1 md:px-6 md:py-4 rounded-lg hover:shadow-md transition ${
-        isOverdue ? "bg-red-200" : "bg-gray-100"
-      }`}
+      className={`px-2 py-1 md:px-6 md:py-4 rounded-lg hover:shadow-md transition bg-gray-100 dark:bg-gray-800
+      `}
     >
       <div className="flex items-center gap-4">
         {/* Icon tròn bên trái */}
         <div
           className={`flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center ${
-            isOverdue ? "bg-red-500" : "bg-blue-100"
+            isOverdue ? "bg-red-500" : "bg-blue-100 dark:bg-gray-100"
           }`}
         >
           <TriangleAlert
-            className={`w-6 h-6 ${isOverdue ? "text-white" : "text-blue-600"}`}
+            className={`w-6 h-6 ${
+              isOverdue ? "text-gray-100" : "text-blue-600"
+            }`}
           />
         </div>
 
         <div className="flex-1 space-y-1">
           {/* Tiêu đề task */}
-          <h3 className="text-base font-semibold text-gray-900 truncate">
+          <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100 truncate">
             {task.title}
           </h3>
           {/* Mô tả task */}
           {task.description && (
-            <p className="text-sm text-gray-500 truncate">{task.description}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-200 truncate">
+              {task.description}
+            </p>
           )}
 
           {/* Trang thái task */}
@@ -88,7 +91,7 @@ const NotificationItem = ({ task }) => {
           </div>
 
           {/* Thời gian task hết hạn */}
-          <div className="flex items-center gap-2 text-xs md:text-sm text-gray-600">
+          <div className="flex items-center gap-2 text-xs md:text-sm text-gray-600 dark:text-gray-200">
             <Clock className="w-4 h-4" />
             <p>Due date: {formatDate(task.dueDate)}</p>
           </div>

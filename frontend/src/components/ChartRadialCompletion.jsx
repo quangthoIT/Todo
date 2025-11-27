@@ -3,8 +3,15 @@ import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { ChartContainer, ChartTooltip } from "@/components/ui/chart";
 import EmptyStatus from "./EmptyStatus";
+import { useTheme } from "@/contexts/ThemeContext";
 
 const ChartRadialCompletion = ({ title, statusStats, completionRate }) => {
+  const { theme } = useTheme();
+  const textColor =
+    theme === "dark"
+      ? "oklch(96.7% 0.003 264.542)"
+      : "oklch(21% 0.034 264.665)";
+
   const safeCompletionRate = Math.min(
     100,
     Math.max(0, Number(completionRate) || 0)
@@ -75,7 +82,9 @@ const ChartRadialCompletion = ({ title, statusStats, completionRate }) => {
   return (
     <Card className="flex flex-col">
       <CardHeader>
-        <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+          {title}
+        </h2>
       </CardHeader>
 
       <CardContent>
@@ -103,6 +112,7 @@ const ChartRadialCompletion = ({ title, statusStats, completionRate }) => {
                           y={viewBox.cy}
                           dy={0}
                           dominantBaseline="middle"
+                          style={{ fill: textColor }}
                           className="text-2xl md:text-3xl xl:text-4xl font-bold"
                         >
                           {safeCompletionRate}%

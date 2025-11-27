@@ -44,7 +44,7 @@ const TaskDetailDialog = ({
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-2 text-sm mt-4">
+        <div className="space-y-2 text-sm mt-4 text-gray-900 dark:text-gray-100">
           <p>
             <strong>Priority:</strong> {task.priority}
           </p>

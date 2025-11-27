@@ -10,7 +10,6 @@ import TaskDetailDialog from "./TaskDetailDialog";
 import { useTasks } from "@/hooks/useTasks";
 import CreateTaskDialog from "./CreateTaskDialog";
 
-
 const localizer = momentLocalizer(moment);
 
 const TaskCalendar = () => {

@@ -1,12 +1,15 @@
+import HeaderPage from "@/components/HeaderPage";
 import React from "react";
 
 const Organization = () => {
   return (
-    <div>
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Organization</h1>
-        <p className="text-gray-600">Manage and organize your projects</p>
-      </div>
+    <div className="space-y-4">
+      {/* Header */}
+      <HeaderPage
+        title="Organization"
+        description="Manage and organize your projects"
+        showButton={false}
+      />
     </div>
   );
 };

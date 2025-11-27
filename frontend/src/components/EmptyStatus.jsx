@@ -5,7 +5,9 @@ const EmptyStatus = ({ title, titleEmpty, titleEmptyDesscription }) => {
   return (
     <Card>
       <CardHeader>
-        <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+          {title}
+        </h2>
       </CardHeader>
       <CardContent className="space-y-3">
         <div className="flex items-center justify-center h-[250px]">

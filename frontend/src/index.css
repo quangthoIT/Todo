@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 .rbc-toolbar-label {
   font-size: 1.5rem !important;
@@ -61,7 +62,7 @@
 }
 
 :root {
-  --chart-created: oklch(27.8% 0.033 256.848);
+  --chart-created: oklch(85.2% 0.199 91.936);
   --chart-pending: oklch(76.9% 0.188 70.08);
   --chart-inProgress: oklch(62.3% 0.214 259.815);
   --chart-completed: oklch(72.3% 0.219 149.579);
@@ -74,4 +75,20 @@
 
   --chart-weekly: oklch(0.7137 0.1434 254.62);
   --chart-total: oklch(0.7137 0.1434 254.62);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0); /* light mode, icon đen */
+}
+
+.dark input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1); /* dark mode, icon trắng */
+}
+
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  filter: invert(0); /* light mode, icon đen */
+}
+
+.dark input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  filter: invert(1); /* dark mode, icon trắng */
 }

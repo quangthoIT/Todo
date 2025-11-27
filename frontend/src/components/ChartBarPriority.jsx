@@ -7,8 +7,15 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import EmptyStatus from "./EmptyStatus";
+import { useTheme } from "@/contexts/ThemeContext";
 
 const ChartBarPriority = ({ priorityStats, title }) => {
+  const { theme } = useTheme();
+  const textColor =
+    theme === "dark"
+      ? "oklch(96.7% 0.003 264.542)"
+      : "oklch(21% 0.034 264.665)";
+
   const chartData = [
     {
       priority: "Low",
@@ -75,7 +82,9 @@ const ChartBarPriority = ({ priorityStats, title }) => {
   return (
     <Card>
       <CardHeader>
-        <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+          {title}
+        </h2>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
@@ -92,12 +101,12 @@ const ChartBarPriority = ({ priorityStats, title }) => {
               tickLine={false}
               tickMargin={10}
               axisLine={true}
-              tick={{ fill: "black", fontSize: 14 }}
+              tick={{ fill: textColor, fontSize: 14 }}
             />
             <YAxis
               tickLine={false}
               axisLine={false}
-              tick={{ fill: "black", fontSize: 14 }}
+              tick={{ fill: textColor, fontSize: 14 }}
             />
             <ChartTooltip
               cursor={false}

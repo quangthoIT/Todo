@@ -36,7 +36,9 @@ const TaskList = ({
     <Card>
       <CardHeader>
         {headerFilters || (
-          <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+            {title}
+          </h2>
         )}
       </CardHeader>
 
@@ -51,10 +53,10 @@ const TaskList = ({
                 key={task._id}
                 className={`flex items-center justify-between p-3 rounded-lg hover:shadow-md ${
                   task.status === "Completed"
-                    ? "bg-green-200"
+                    ? "bg-green-400"
                     : task.status === "Overdue"
-                    ? "bg-red-200"
-                    : "bg-gray-100"
+                    ? "bg-red-400"
+                    : "bg-gray-200 dark:bg-gray-700"
                 } transition`}
               >
                 {/* Checkbox */}
@@ -72,9 +74,11 @@ const TaskList = ({
                     {/* Title */}
                     <p
                       className={
-                        task.status === "Completed" || task.status === "Overdue"
-                          ? "text-gray-500 font-semibold"
-                          : "text-gray-900 font-semibold"
+                        task.status === "Completed"
+                          ? "text-gray-900 font-semibold"
+                          : task.status === "Overdue"
+                          ? "text-gray-100 font-semibold"
+                          : "text-gray-900 dark:text-gray-100 font-semibold"
                       }
                     >
                       {task.title}
@@ -84,10 +88,11 @@ const TaskList = ({
                     {task.description && (
                       <p
                         className={
-                          task.status === "Completed" ||
-                          task.status === "Overdue"
-                            ? "text-gray-400 text-sm"
-                            : "text-gray-600 text-sm"
+                          task.status === "Completed"
+                            ? "text-gray-600 text-sm"
+                            : task.status === "Overdue"
+                            ? "text-gray-200 text-sm"
+                            : "text-gray-500 dark:text-gray-300 text-sm"
                         }
                       >
                         {task.description}
@@ -96,9 +101,17 @@ const TaskList = ({
 
                     {/* Start date and Due date */}
                     {(task.startDate || task.dueDate) && (
-                      <div className="flex items-center gap-2 md:gap-3 text-xs text-gray-400">
+                      <div className="flex items-center gap-2 md:gap-3 text-xs">
                         {task.startDate && (
-                          <p className="text-blue-500">
+                          <p
+                            className={
+                              task.status === "Completed"
+                                ? "text-blue-700"
+                                : task.status === "Overdue"
+                                ? "text-blue-800"
+                                : "text-blue-600 dark:text-blue-500"
+                            }
+                          >
                             Start:{" "}
                             {new Date(task.startDate).toLocaleString([], {
                               dateStyle: "medium",
@@ -107,7 +120,15 @@ const TaskList = ({
                           </p>
                         )}
                         {task.dueDate && (
-                          <p className="text-red-400">
+                          <p
+                            className={
+                              task.status === "Completed"
+                                ? "text-red-600"
+                                : task.status === "Overdue"
+                                ? "text-red-800"
+                                : "text-red-600"
+                            }
+                          >
                             Due:{" "}
                             {new Date(task.dueDate).toLocaleString([], {
                               dateStyle: "medium",
@@ -120,7 +141,7 @@ const TaskList = ({
 
                     {/* Completed at */}
                     {task.completedAt && (
-                      <p className="text-xs text-green-600">
+                      <p className="text-xs text-green-800">
                         Completed at:{" "}
                         {new Date(task.completedAt).toLocaleString([], {
                           dateStyle: "medium",

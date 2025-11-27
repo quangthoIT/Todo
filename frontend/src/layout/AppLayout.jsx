@@ -13,7 +13,7 @@ const AppLayout = () => {
       <div className="flex flex-1 overflow-hidden">
         <aside
           className={`
-            fixed inset-y-0 left-0 z-40 w-54 lg:w-64 bg-white border-r border-gray-200 shadow-lg
+            fixed inset-y-0 left-0 z-40 w-54 lg:w-64 bg-white border-r border-gray-200 dark:border-gray-600 shadow-lg
             transform transition-transform duration-300 ease-in-out
             md:relative md:translate-x-0
             ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
@@ -29,7 +29,7 @@ const AppLayout = () => {
           ></div>
         )}
 
-        <main className="flex-1 p-4 md:p-8 overflow-y-auto bg-gray-50">
+        <main className="flex-1 p-4 md:p-8 overflow-y-auto bg-gray-50 dark:bg-gray-800">
           <Outlet />
         </main>
       </div>

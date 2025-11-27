@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Card, CardContent, CardHeader } from "./ui/card";
 import { Button } from "./ui/button";
 import { User, Loader2 } from "lucide-react";
 import { Label } from "./ui/label";
@@ -15,14 +15,12 @@ const ProfileInfoCard = ({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>
-          <div className="flex items-center gap-3">
-            <User className="w-6 h-6 text-blue-600" />
-            <h2 className="text-xl font-semibold text-gray-900">
-              Profile Info
-            </h2>
-          </div>
-        </CardTitle>
+        <div className="flex items-center gap-3">
+          <User className="w-6 h-6 text-blue-600 dark:text-gray-100" />
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+            Profile Info
+          </h2>
+        </div>
       </CardHeader>
       <CardContent>
         <form onSubmit={onUpdate} className="space-y-6">

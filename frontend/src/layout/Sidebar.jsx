@@ -27,7 +27,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="flex flex-col h-full bg-white border-r border-gray-200 shadow-sm p-4">
+    <div className="flex flex-col h-full bg-white dark:bg-gray-900 shadow-sm p-4">
       {/* New Task */}
       {/* <div className="p-2 mt-4">
         <button
@@ -53,7 +53,7 @@ const Sidebar = () => {
                 ${
                   isActive
                     ? "bg-blue-50 text-blue-600 font-medium"
-                    : "text-gray-700 hover:bg-gray-100"
+                    : "text-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:dark:text-gray-100"
                 }`}
             >
               <item.icon size={20} />

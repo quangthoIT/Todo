@@ -8,6 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Input } from "./ui/input";
 
 const TaskFilterBar = ({
   searchQuery,
@@ -20,15 +21,15 @@ const TaskFilterBar = ({
   return (
     <div className="flex flex-col md:flex-row items-center gap-4">
       {/* Search */}
-      <div className="flex-1 relative w-full">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-        <input
+      <div className="flex-1 w-full">
+        <Input
           type="text"
           placeholder="Search tasks..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+          icon={<Search className="w-5 h-5" />}
+          className="border border-gray-300"
+        ></Input>
       </div>
       <div className="flex gap-4 w-full md:w-auto">
         {/* Filter by Status */}
