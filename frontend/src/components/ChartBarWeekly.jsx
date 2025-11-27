@@ -17,14 +17,14 @@ const ChartBarWeekly = ({ title, filtered }) => {
 
   // Khởi tạo data cho 7 ngày trong tuần
   const weekDays = [
-  { day: "Monday", short: "Mon", count: 0, fill: "var(--chart-weekly)" },
-  { day: "Tuesday", short: "Tue", count: 0, fill: "var(--chart-weekly)" },
-  { day: "Wednesday", short: "Wed", count: 0, fill: "var(--chart-weekly)" },
-  { day: "Thursday", short: "Thu", count: 0, fill: "var(--chart-weekly)" },
-  { day: "Friday", short: "Fri", count: 0, fill: "var(--chart-weekly)" },
-  { day: "Saturday", short: "Sat", count: 0, fill: "var(--chart-weekly)" },
-  { day: "Sunday", short: "Sun", count: 0, fill: "var(--chart-weekly)" },
-];
+    { day: "Monday", short: "Mon", count: 0, fill: "var(--chart-weekly)" },
+    { day: "Tuesday", short: "Tue", count: 0, fill: "var(--chart-weekly)" },
+    { day: "Wednesday", short: "Wed", count: 0, fill: "var(--chart-weekly)" },
+    { day: "Thursday", short: "Thu", count: 0, fill: "var(--chart-weekly)" },
+    { day: "Friday", short: "Fri", count: 0, fill: "var(--chart-weekly)" },
+    { day: "Saturday", short: "Sat", count: 0, fill: "var(--chart-weekly)" },
+    { day: "Sunday", short: "Sun", count: 0, fill: "var(--chart-weekly)" },
+  ];
 
   // Đếm số tasks theo ngày
   if (filtered && filtered.length > 0) {
@@ -49,6 +49,7 @@ const ChartBarWeekly = ({ title, filtered }) => {
       <EmptyStatsStatus
         title={title}
         titleEmpty="No weekly task data available"
+        titleEmptyDesscription="Try selecting a different date range"
       />
     );
   }
@@ -86,7 +87,9 @@ const ChartBarWeekly = ({ title, filtered }) => {
                   hideLabel
                   formatter={(value, name, props) => (
                     <div className="flex items-center gap-2">
-                      <span className="font-semibold">{props.payload.day}:</span>
+                      <span className="font-semibold">
+                        {props.payload.day}:
+                      </span>
                       <span>{value} tasks</span>
                     </div>
                   )}

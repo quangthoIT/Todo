@@ -63,7 +63,11 @@ const ChartBarPriority = ({ priorityStats, title }) => {
   // ----- KHI KHOẢNG THỜI GIAN KHÔNG CÓ TASK -----
   if (totalTasks === 0) {
     return (
-      <EmptyStatsStatus title={title} titleEmpty="No priority data available" />
+      <EmptyStatsStatus
+        title={title}
+        titleEmpty="No priority data available"
+        titleEmptyDesscription="Try selecting a different date range"
+      />
     );
   }
 

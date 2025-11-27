@@ -53,6 +53,7 @@ const ChartPieTaskStatus = ({ statusStats, title }) => {
       <EmptyStatsStatus
         title={title}
         titleEmpty="No task status data available"
+        titleEmptyDesscription="Try selecting a different date range"
       />
     );
   }

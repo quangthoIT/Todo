@@ -5,9 +5,15 @@ import NotificationItem from "./NotificationItem";
 import { Button } from "./ui/button";
 import EmptyStatsStatus from "./EmptyStatsStatus";
 
-const NotificationCard = ({ notifications, title, description, onRefresh }) => {
+const NotificationCard = ({ notifications, title, onRefresh }) => {
   if (notifications.length === 0) {
-    return <EmptyStatsStatus title={title} titleEmpty="No notifications" />;
+    return (
+      <EmptyStatsStatus
+        title={title}
+        titleEmpty="No notifications"
+        titleEmptyDesscription="You currently have no upcoming task reminders"
+      />
+    );
   }
 
   return (

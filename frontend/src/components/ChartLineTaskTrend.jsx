@@ -25,6 +25,7 @@ const ChartLineTaskTrend = ({ title, trendData }) => {
       <EmptyStatsStatus
         title={title}
         titleEmpty="No task trend data available"
+        titleEmptyDesscription="Try selecting a different date range"
       />
     );
   }
