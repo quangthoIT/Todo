@@ -96,10 +96,10 @@ const ChartBarWeekly = ({ title, filtered }) => {
                   hideLabel
                   formatter={(value, name, props) => (
                     <div className="flex items-center gap-2">
-                      <span className="font-semibold">
+                      <span className="font-semibold text-gray-900">
                         {props.payload.day}:
                       </span>
-                      <span>{value} tasks</span>
+                      <span className="text-gray-900">{value} tasks</span>
                     </div>
                   )}
                 />

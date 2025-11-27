@@ -66,7 +66,10 @@ const ChartLineTaskTrend = ({ title, trendData }) => {
               axisLine={false}
               tick={{ fill: textColor, fontSize: 14 }}
             />
-            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent className="text-gray-900" />}
+            />
             <Line
               dataKey="created"
               type="monotone"

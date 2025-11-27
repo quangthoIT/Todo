@@ -110,7 +110,12 @@ const ChartBarPriority = ({ priorityStats, title }) => {
             />
             <ChartTooltip
               cursor={false}
-              content={<ChartTooltipContent hideLabel />}
+              content={
+                <ChartTooltipContent
+                  hideLabel
+                  className="text-gray-900"
+                />
+              }
             />
             <Bar dataKey="count" radius={8} />
           </BarChart>
