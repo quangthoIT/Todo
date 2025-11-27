@@ -135,7 +135,6 @@ export const api = {
       return data;
     },
     getNotifications: async () => {
-      // Gọi đúng endpoint bạn đã định nghĩa trong router
       const response = await fetch(`${API_URL}/tasks/notifications`, {
         headers: getAuthHeaders(),
       });

@@ -2,7 +2,7 @@ import React from "react";
 import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { ChartContainer, ChartTooltip } from "@/components/ui/chart";
-import EmptyStatsStatus from "./EmptyStatsStatus";
+import EmptyStatus from "./EmptyStatus";
 
 const ChartRadialCompletion = ({ title, statusStats, completionRate }) => {
   const safeCompletionRate = Math.min(
@@ -43,7 +43,7 @@ const ChartRadialCompletion = ({ title, statusStats, completionRate }) => {
 
   if (totalTasks === 0) {
     return (
-      <EmptyStatsStatus
+      <EmptyStatus
         title={title}
         titleEmpty="No task status data available"
         titleEmptyDesscription="Try selecting a different date range"

@@ -16,12 +16,18 @@ const getTimeRemaining = (dueDate) => {
   const now = new Date();
   const diff = new Date(dueDate) - now;
 
-  if (diff <= 0) return "Overdue";
+  if (diff < 0) {
+    const minutesOver = Math.floor(Math.abs(diff) / (1000 * 60));
+    const hoursOver = Math.floor(minutesOver / 60);
+    if (hoursOver < 1) return `Overdue ${minutesOver} mins`;
+    return `Overdue ${hoursOver} hours`;
+  }
+
   const minutes = Math.floor(diff / (1000 * 60));
   const hours = Math.floor(minutes / 60);
 
   if (minutes < 60) {
-    return minutes <= 1 ? "1 minute left" : `${minutes} minutes left`;
+    return minutes <= 1 ? "1 min left" : `${minutes} mins left`;
   }
 
   if (hours < 12) return `${hours} hours left`;
@@ -91,7 +97,11 @@ const NotificationItem = ({ task }) => {
         {/* Thời gian còn bao lâu */}
         <div>
           {timeRemaining && (
-            <p className="flex-shrink-0 px-3 py-1 text-xs md:text-sm rounded-full bg-red-500 text-white">
+            <p
+              className={`flex-shrink-0 px-3 py-1 text-xs md:text-sm text-white rounded-full ${
+                isOverdue ? "bg-red-500" : "bg-blue-600"
+              }`}
+            >
               {timeRemaining}
             </p>
           )}

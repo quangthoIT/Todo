@@ -6,7 +6,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import EmptyStatsStatus from "./EmptyStatsStatus";
+import EmptyStatus from "./EmptyStatus";
 
 const ChartLineTaskTrend = ({ title, trendData }) => {
   const chartConfig = {
@@ -22,7 +22,7 @@ const ChartLineTaskTrend = ({ title, trendData }) => {
 
   if (!trendData || trendData.length === 0) {
     return (
-      <EmptyStatsStatus
+      <EmptyStatus
         title={title}
         titleEmpty="No task trend data available"
         titleEmptyDesscription="Try selecting a different date range"

@@ -6,7 +6,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import EmptyStatsStatus from "./EmptyStatsStatus";
+import EmptyStatus from "./EmptyStatus";
 
 const ChartBarWeekly = ({ title, filtered }) => {
   // Tính số lượng tasks theo từng ngày trong tuần
@@ -46,7 +46,7 @@ const ChartBarWeekly = ({ title, filtered }) => {
 
   if (totalTasks === 0) {
     return (
-      <EmptyStatsStatus
+      <EmptyStatus
         title={title}
         titleEmpty="No weekly task data available"
         titleEmptyDesscription="Try selecting a different date range"

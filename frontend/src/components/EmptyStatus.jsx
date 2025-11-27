@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardContent, CardHeader } from "./ui/card";
 
-const EmptyStatsStatus = ({ title, titleEmpty, titleEmptyDesscription }) => {
+const EmptyStatus = ({ title, titleEmpty, titleEmptyDesscription }) => {
   return (
     <Card>
       <CardHeader>
@@ -19,4 +19,4 @@ const EmptyStatsStatus = ({ title, titleEmpty, titleEmptyDesscription }) => {
   );
 };
 
-export default EmptyStatsStatus;
+export default EmptyStatus;

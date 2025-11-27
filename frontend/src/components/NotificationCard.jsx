@@ -3,12 +3,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { RefreshCw } from "lucide-react";
 import NotificationItem from "./NotificationItem";
 import { Button } from "./ui/button";
-import EmptyStatsStatus from "./EmptyStatsStatus";
+import EmptyStatus from "./EmptyStatus";
 
 const NotificationCard = ({ notifications, title, onRefresh }) => {
   if (notifications.length === 0) {
     return (
-      <EmptyStatsStatus
+      <EmptyStatus
         title={title}
         titleEmpty="No notifications"
         titleEmptyDesscription="You currently have no upcoming task reminders"

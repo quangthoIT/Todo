@@ -6,7 +6,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import EmptyStatsStatus from "./EmptyStatsStatus";
+import EmptyStatus from "./EmptyStatus";
 
 const ChartPieTaskStatus = ({ statusStats, title }) => {
   const chartData = [
@@ -50,7 +50,7 @@ const ChartPieTaskStatus = ({ statusStats, title }) => {
   // ----- KHI KHOẢNG THỜI GIAN KHÔNG CÓ DỮ LIỆU -----
   if (total === 0) {
     return (
-      <EmptyStatsStatus
+      <EmptyStatus
         title={title}
         titleEmpty="No task status data available"
         titleEmptyDesscription="Try selecting a different date range"

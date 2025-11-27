@@ -44,7 +44,7 @@ const Notification = () => {
       />
 
       <NotificationCard
-        title="Upcoming Deadline Notifications"
+        title="Deadline Alerts"
         notifications={notifications}
         onRefresh={fetchNotifications}
       />

@@ -136,6 +136,7 @@ export const getNotifications = async (req, res) => {
   try {
     const now = new Date();
     const next12Hours = new Date(now.getTime() + 12 * 60 * 60 * 1000);
+    const past12Hours = new Date(now.getTime() - 12 * 60 * 60 * 1000);
 
     const notifications = await Task.find({
       createdBy: req.user._id,
@@ -149,6 +150,10 @@ export const getNotifications = async (req, res) => {
         },
         {
           status: "Overdue",
+          dueDate: {
+            $gte: past12Hours, // Đã hết hạn trong12h trước
+            $lte: now, // Nhỏ hơn hiện tại
+          },
         },
       ],
     })

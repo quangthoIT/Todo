@@ -6,7 +6,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import EmptyStatsStatus from "./EmptyStatsStatus";
+import EmptyStatus from "./EmptyStatus";
 
 const ChartBarPriority = ({ priorityStats, title }) => {
   const chartData = [
@@ -63,7 +63,7 @@ const ChartBarPriority = ({ priorityStats, title }) => {
   // ----- KHI KHOẢNG THỜI GIAN KHÔNG CÓ TASK -----
   if (totalTasks === 0) {
     return (
-      <EmptyStatsStatus
+      <EmptyStatus
         title={title}
         titleEmpty="No priority data available"
         titleEmptyDesscription="Try selecting a different date range"
