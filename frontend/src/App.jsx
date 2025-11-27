@@ -16,6 +16,7 @@ import Organization from "./pages/Organization";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Profile from "./pages/Profile";
+import Notification from "./pages/Notification";
 
 const App = () => {
   return (
@@ -72,6 +73,7 @@ const App = () => {
               <Route path="organization" element={<Organization />} />
               <Route path="reports" element={<Report />} />
               <Route path="profile" element={<Profile />} />
+              <Route path="notifications" element={<Notification />} />
             </Route>
 
             <Route path="*" element={<NotFound />} />

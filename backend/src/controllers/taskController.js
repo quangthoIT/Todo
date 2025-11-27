@@ -131,6 +131,37 @@ export const updateTask = async (req, res) => {
   }
 };
 
+// ----- LẤY THÔNG BÁO TASK SẮP ĐẾN HẠN -----
+export const getNotifications = async (req, res) => {
+  try {
+    const now = new Date();
+    const next12Hours = new Date(now.getTime() + 12 * 60 * 60 * 1000);
+
+    const notifications = await Task.find({
+      createdBy: req.user._id,
+      $or: [
+        {
+          status: "In_Progress",
+          dueDate: {
+            $gte: now, // Chưa hết hạn
+            $lte: next12Hours, // Hết hạn trong 12 giờ tới
+          },
+        },
+        {
+          status: "Overdue",
+        },
+      ],
+    })
+      .sort({ dueDate: 1 })
+      .limit(5)
+      .select("title description priority dueDate status");
+
+    res.status(200).json({ success: true, notifications });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server error", error });
+  }
+};
+
 // ----- XÓA TASK -----
 export const deleteTask = async (req, res) => {
   try {

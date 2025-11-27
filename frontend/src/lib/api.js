@@ -134,6 +134,16 @@ export const api = {
         throw new Error(data.message || "Failed to update task");
       return data;
     },
+    getNotifications: async () => {
+      // Gọi đúng endpoint bạn đã định nghĩa trong router
+      const response = await fetch(`${API_URL}/tasks/notifications`, {
+        headers: getAuthHeaders(),
+      });
+      const data = await response.json();
+      if (!response.ok)
+        throw new Error(data.message || "Failed to fetch notifications");
+      return data;
+    },
 
     delete: async (id) => {
       const response = await fetch(`${API_URL}/tasks/${id}`, {

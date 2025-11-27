@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   BellIcon,
   Menu,
@@ -10,10 +10,33 @@ import {
 import { Input } from "@/components/ui/input";
 import { useNavigate } from "react-router-dom";
 import UserMenu from "../components/UserMenu";
+import { api } from "@/lib/api";
+import { toast } from "sonner";
 
 const Header = ({ onMenuClick }) => {
   const [theme, setTheme] = useState("light");
+  const [notifications, setNotifications] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkNotifications = async () => {
+      try {
+        const data = await api.tasks.getNotifications();
+
+        if (data.success && data.notifications.length > 0) {
+          setNotifications(true);
+        } else {
+          setNotifications(false);
+        }
+      } catch (error) {
+        toast.error("Failed to check notifications");
+      }
+    };
+
+    checkNotifications();
+    const interval = setInterval(checkNotifications, 30 * 1000);
+    return () => clearInterval(interval);
+  });
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm border-b border-gray-200 py-4 px-8 md:px-12 md:py-3">
@@ -59,8 +82,16 @@ const Header = ({ onMenuClick }) => {
           </button>
 
           {/* Thông báo */}
-          <button className="p-2 rounded-xl hover:bg-blue-50 transition cursor-pointer">
+          <button
+            className="p-2 rounded-xl hover:bg-blue-50 transition cursor-pointer relative"
+            onClick={() => {
+              navigate("/notifications");
+            }}
+          >
             <BellIcon className="w-6 h-6" />
+            {notifications && (
+              <div className="absolute top-1 right-1 h-2.5 w-2.5 rounded-full bg-red-500   animate-pulse"></div>
+            )}
           </button>
 
           {/* Thông tin người dùng */}

@@ -3,6 +3,7 @@ import { authMiddleware } from "../middleware/auth.js";
 import {
   createTask,
   deleteTask,
+  getNotifications,
   getTaskbyId,
   getTasks,
   updateTask,
@@ -15,6 +16,9 @@ taskRouter
   .route("/")
   .get(authMiddleware, getTasks)
   .post(authMiddleware, createTask);
+
+// Lấy thông báo tasks sắp đến hạn
+taskRouter.get("/notifications", authMiddleware, getNotifications);
 
 // Lấy chi tiết 1 task, cập nhật và xóa task
 taskRouter

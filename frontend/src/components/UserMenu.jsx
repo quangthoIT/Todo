@@ -47,7 +47,7 @@ const UserMenu = ({ isMobile = false }) => {
               {currentUser?.userName?.[0]?.toUpperCase() || "U"}
             </div>
           )}
-          <div className="absolute bottom-0 right-0 w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+          <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse"></div>
         </div>
 
         {/* Thông tin người dùng */}

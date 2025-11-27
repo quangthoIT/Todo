@@ -177,15 +177,15 @@ const CreateTaskDialog = ({ isOpen, onClose, onSubmit, task: editingTask }) => {
 
           {/* Create Button & Cancel Button */}
           <DialogFooter>
-            <Button type="submit" variant="default">
-              {editingTask ? "Update" : "Create"}
-            </Button>
             <Button
               type="button"
               variant="secondary"
               onClick={() => onClose(false)}
             >
               Cancel
+            </Button>
+            <Button type="submit" variant="default">
+              {editingTask ? "Update" : "Create"}
             </Button>
           </DialogFooter>
         </form>

@@ -2,25 +2,14 @@ import React from "react";
 import { Card, CardContent, CardHeader } from "./ui/card";
 import { Pencil, Trash2 } from "lucide-react";
 import { Button } from "./ui/button";
+import { getPriorityColor as getColorHelper } from "../lib/utils";
 
-const defaultGetPriorityColor = (priority) => {
-  switch (priority) {
-    case "Urgent":
-      return "bg-red-500 text-gray-100";
-    case "High":
-      return "bg-orange-500 text-gray-100";
-    case "Medium":
-      return "bg-yellow-400 text-gray-800";
-    default:
-      return "bg-gray-400 text-gray-100";
-  }
-};
 const TaskList = ({
   tasks,
   title,
   headerFilters,
   emptyMessage,
-  getPriorityColor = defaultGetPriorityColor,
+  getPriorityColor = getColorHelper,
   onEditTask,
   onDeleteTask,
   onToggleTaskStatus,
