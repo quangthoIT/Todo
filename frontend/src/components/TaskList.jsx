@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardContent, CardHeader } from "./ui/card";
 import { Pencil, Trash2 } from "lucide-react";
 import { Button } from "./ui/button";
 import { getPriorityColor as getColorHelper } from "../lib/utils";
+import DeleteConfirmDialog from "./DeleteConfirmDialog";
 
 const TaskList = ({
   tasks,
@@ -16,6 +17,21 @@ const TaskList = ({
   showActions = true,
   showCheckbox = true,
 }) => {
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [taskToDelete, setTaskToDelete] = useState(null);
+
+  const handleDeleteClick = (taskId, taskTitle) => {
+    setTaskToDelete({ id: taskId, title: taskTitle });
+    setDeleteDialogOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (taskToDelete) {
+      onDeleteTask(taskToDelete.id);
+      setDeleteDialogOpen(false);
+      setTaskToDelete(null);
+    }
+  };
   return (
     <Card>
       <CardHeader>
@@ -138,7 +154,7 @@ const TaskList = ({
                       <Button
                         variant="ghost"
                         size="icon"
-                        onClick={() => onDeleteTask(task._id)}
+                        onClick={() => handleDeleteClick(task._id, task.title)}
                       >
                         <Trash2 className="size-4 md:size-5 text-red-600" />
                       </Button>
@@ -150,6 +166,21 @@ const TaskList = ({
           </div>
         )}
       </CardContent>
+
+      {/* Dialog Xóa */}
+      <DeleteConfirmDialog
+        isOpen={deleteDialogOpen}
+        onClose={() => setDeleteDialogOpen(false)}
+        onConfirm={handleConfirmDelete}
+        titleDelete="Delete Task"
+        descriptionDelete={
+          <span>
+            Are you sure you want to delete the task{" "}
+            <span className="font-bold">"{taskToDelete?.title}"</span>? This
+            action cannot be undone.
+          </span>
+        }
+      />
     </Card>
   );
 };

@@ -10,7 +10,14 @@ import {
 import { Button } from "./ui/button";
 import { AlertTriangle, Loader2 } from "lucide-react";
 
-const DeleteConfirmDialog = ({ isOpen, onClose, onConfirm, loading }) => {
+const DeleteConfirmDialog = ({
+  isOpen,
+  onClose,
+  onConfirm,
+  loading,
+  titleDelete,
+  descriptionDelete,
+}) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="md:max-w-[450px]">
@@ -19,12 +26,9 @@ const DeleteConfirmDialog = ({ isOpen, onClose, onConfirm, loading }) => {
             <div className="flex items-center justify-center w-10 h-10 rounded-full bg-red-100">
               <AlertTriangle className="w-5 h-5 text-red-600" />
             </div>
-            Confirm Account Delete
+            {titleDelete}
           </DialogTitle>
-          <DialogDescription>
-            Are you sure you want to delete your account? All your data will be
-            permanently deleted and cannot be recovered.
-          </DialogDescription>
+          <DialogDescription>{descriptionDelete}</DialogDescription>
         </DialogHeader>
 
         <DialogFooter>

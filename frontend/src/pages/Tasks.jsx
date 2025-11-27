@@ -17,7 +17,7 @@ const Tasks = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const numberTasksOnPage = 10;
 
-  // 🧠 Hàm đổi trạng thái task
+  // Hàm đổi trạng thái task
   const handleToggleTaskStatus = async (taskId) => {
     const task = tasks.find((t) => t._id === taskId);
     if (!task) return;
@@ -30,7 +30,7 @@ const Tasks = () => {
     });
   };
 
-  // 🔍 Lọc danh sách tasks
+  // Lọc danh sách tasks
   const filteredTasks = tasks.filter((task) => {
     const matchesSearch =
       task.title.toLowerCase().includes(searchQuery.toLowerCase()) ||

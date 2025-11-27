@@ -7,7 +7,7 @@ import ProfileInfoCard from "@/components/ProfileInfoCard";
 import AvatarCard from "@/components/AvatarCard";
 import PasswordCard from "@/components/PasswordCard";
 import DeleteAccountCard from "@/components/DeleteAccountCard";
-import DeleteConfirmModal from "@/components/DeleteConfirmModal";
+import DeleteConfirmDialog from "@/components/DeleteConfirmDialog";
 import { toast } from "sonner";
 
 const Profile = () => {
@@ -148,11 +148,13 @@ const Profile = () => {
         <DeleteAccountCard onRequestDelete={() => setShowDeleteDialog(true)} />
       </div>
 
-      <DeleteConfirmModal
+      <DeleteConfirmDialog
         isOpen={showDeleteDialog}
         onClose={() => setShowDeleteDialog(false)}
         onConfirm={handleDeleteAccount}
         loading={loading}
+        titleDelete="Confirm Account Delete"
+        descriptionDelete="Are you sure you want to delete your account? All your data will be permanently deleted and cannot be recovered."
       />
     </div>
   );
