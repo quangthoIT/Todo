@@ -18,7 +18,7 @@ const taskSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["Pending", "In_Progress", "Completed", "Overdue"],
+      enum: ["Pending", "inProgress", "Completed", "Overdue"],
       default: "Pending",
     },
     startDate: {
@@ -61,7 +61,7 @@ taskSchema.pre("save", function (next) {
     if (this.startDate && now < this.startDate) {
       this.status = "Pending";
     } else if (this.dueDate && now >= this.startDate && now <= this.dueDate) {
-      this.status = "In_Progress";
+      this.status = "inProgress";
     } else if (this.dueDate && now > this.dueDate) {
       this.status = "Overdue";
     }
@@ -69,6 +69,6 @@ taskSchema.pre("save", function (next) {
   next();
 });
 
-const Task = mongoose.models.Task || mongoose.model("Task", taskSchema);
+const taskModel = mongoose.models.Task || mongoose.model("Task", taskSchema);
 
-export default Task;
+export default taskModel;

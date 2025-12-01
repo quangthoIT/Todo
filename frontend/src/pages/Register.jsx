@@ -18,7 +18,7 @@ const Register = () => {
     e.preventDefault();
     // Kiểm tra mật khẩu
     if (password !== confirmPassword) {
-      toast.error("Mật khẩu không khớp");
+      toast.error("Passwords do not match");
       return;
     }
     // Kiểm tra độ dài mật khẩu

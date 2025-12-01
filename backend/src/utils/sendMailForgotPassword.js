@@ -52,6 +52,6 @@ export const sendMailForgotPassword = async (email, otp) => {
       html,
     });
   } catch (err) {
-    console.error("Lỗi gửi email:", err);
+    console.error("Error sending email:", err);
   }
 };

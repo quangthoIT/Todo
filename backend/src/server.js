@@ -1,10 +1,11 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import path from "path";
 import { connectDB } from "./config/db.js";
 import userRouter from "./routes/userRoute.js";
 import taskRouter from "./routes/taskRoute.js";
-import path from "path";
+import groupRouter from "./routes/groupRoute.js";
 
 dotenv.config(); // Đọc biến môi trường từ file .env
 
@@ -30,6 +31,7 @@ app.use(express.json()); // Middleware để phân tích JSON
 // API routes
 app.use("/api/users", userRouter);
 app.use("/api/tasks", taskRouter);
+app.use("api/groups", groupRouter);
 
 if (process.env.NODE_ENV === "production") {
   // Phục vụ tệp tĩnh từ thư mục build của frontend

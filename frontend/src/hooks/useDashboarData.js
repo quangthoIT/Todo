@@ -45,10 +45,14 @@ export function useDashboardData() {
       (t) => t.status === "Pending"
     );
     const inProgressTasks = todayOnwardsTasks.filter(
-      (t) => t.status === "In_Progress"
+      (t) => t.status === "inProgress"
     );
-    const completedTasks = todayOnwardsTasks.filter((t) => t.status === "Completed");
-    const overdueTasks = todayOnwardsTasks.filter((t) => t.status === "Overdue");
+    const completedTasks = todayOnwardsTasks.filter(
+      (t) => t.status === "Completed"
+    );
+    const overdueTasks = todayOnwardsTasks.filter(
+      (t) => t.status === "Overdue"
+    );
 
     const result = {
       totalTasks: todayOnwardsTasks.length,

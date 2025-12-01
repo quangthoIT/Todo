@@ -52,7 +52,7 @@ export const getTasks = async (req, res) => {
             now >= task.startDate &&
             now <= task.dueDate
           ) {
-            newStatus = "In_Progress";
+            newStatus = "inProgress";
           } else if (task.dueDate && now > task.dueDate) {
             newStatus = "Overdue";
           }
@@ -142,7 +142,7 @@ export const getNotifications = async (req, res) => {
       createdBy: req.user._id,
       $or: [
         {
-          status: "In_Progress",
+          status: "inProgress",
           dueDate: {
             $gte: now, // Chưa hết hạn
             $lte: next12Hours, // Hết hạn trong 12 giờ tới
@@ -151,7 +151,7 @@ export const getNotifications = async (req, res) => {
         {
           status: "Overdue",
           dueDate: {
-            $gte: past12Hours, // Đã hết hạn trong12h trước
+            $gte: past12Hours, // Đã hết hạn trong 12h trước
             $lte: now, // Nhỏ hơn hiện tại
           },
         },

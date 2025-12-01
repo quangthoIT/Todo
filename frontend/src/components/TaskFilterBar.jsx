@@ -42,7 +42,7 @@ const TaskFilterBar = ({
               <SelectGroup>
                 <SelectItem value="all">All Status</SelectItem>
                 <SelectItem value="Pending">Pending</SelectItem>
-                <SelectItem value="In_Progress">In Progress</SelectItem>
+                <SelectItem value="inProgress">In Progress</SelectItem>
                 <SelectItem value="Completed">Completed</SelectItem>
                 <SelectItem value="Overdue">Overdue</SelectItem>
               </SelectGroup>

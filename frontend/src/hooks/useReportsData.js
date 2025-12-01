@@ -55,7 +55,7 @@ export function useReportsData(dateRange = null) {
 
     // ----- TÍNH TOÁN THỐNG KÊ THEO TRANG THÁI -----
     const completed = filtered.filter((t) => t.status === "Completed");
-    const inProgress = filtered.filter((t) => t.status === "In_Progress");
+    const inProgress = filtered.filter((t) => t.status === "inProgress");
     const pending = filtered.filter((t) => t.status === "Pending");
     const overdue = filtered.filter(
       (t) => t.dueDate && new Date(t.dueDate) < now && t.status !== "Completed"
