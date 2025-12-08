@@ -71,7 +71,7 @@ const UserMenu = ({ isMobile = false }) => {
       {/* Dropdown menu */}
       {open && (
         <ul
-          className={`absolute${
+          className={`absolute ${
             isMobile
               ? "static mt-2"
               : "top-16 left-0 w-48 bg-white dark:bg-gray-900 rounded-xl shadow-md border border-gray-200 dark:border-gray-800"
