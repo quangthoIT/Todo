@@ -31,7 +31,7 @@ app.use(express.json()); // Middleware để phân tích JSON
 // API routes
 app.use("/api/users", userRouter);
 app.use("/api/tasks", taskRouter);
-app.use("api/groups", groupRouter);
+app.use("/api/groups", groupRouter);
 
 if (process.env.NODE_ENV === "production") {
   // Phục vụ tệp tĩnh từ thư mục build của frontend

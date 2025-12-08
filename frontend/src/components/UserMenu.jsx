@@ -29,7 +29,7 @@ const UserMenu = ({ isMobile = false }) => {
         }  transition`}
       >
         {/* Avatar */}
-        <div className="relative">
+        <div className="relative flex-shrink-0">
           {currentUser?.avatar ? (
             <img
               src={currentUser.avatar}
@@ -51,11 +51,11 @@ const UserMenu = ({ isMobile = false }) => {
         </div>
 
         {/* Thông tin người dùng */}
-        <div className="text-left flex-1">
-          <p className="text-base md:text-sm font-medium text-gray-900 dark:text-gray-100">
+        <div className="text-left flex-1 min-w-0">
+          <p className="text-base md:text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
             {currentUser?.userName}
           </p>
-          <p className="text-sm md:text-xs text-gray-600 dark:text-gray-400">
+          <p className="text-sm md:text-xs text-gray-600 dark:text-gray-400 truncate">
             {currentUser?.email}
           </p>
         </div>
@@ -71,7 +71,7 @@ const UserMenu = ({ isMobile = false }) => {
       {/* Dropdown menu */}
       {open && (
         <ul
-          className={`absolute ${
+          className={`absolute${
             isMobile
               ? "static mt-2"
               : "top-16 left-0 w-48 bg-white dark:bg-gray-900 rounded-xl shadow-md border border-gray-200 dark:border-gray-800"

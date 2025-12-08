@@ -36,7 +36,7 @@ export const createGroupTask = async (req, res) => {
     }
 
     // Chỉ Owner mới được tạo task
-    if (group.Owner.toString() !== userId.toString()) {
+    if (group.owner.toString() !== userId.toString()) {
       return res.status(403).json({
         success: false,
         message: "Only group owner can create tasks",
@@ -209,7 +209,7 @@ export const updateGroupTask = async (req, res) => {
     }
 
     // Chỉ Owner mới được update task
-    if (group.Owner.toString() !== userId.toString()) {
+    if (group.owner.toString() !== userId.toString()) {
       return res.status(403).json({
         success: false,
         message: "Only group owner can update task details",
@@ -337,7 +337,7 @@ export const deleteGroupTask = async (req, res) => {
     }
 
     // Chỉ Owner mới xóa task
-    if (group.Owner.toString() !== userId.toString()) {
+    if (group.owner.toString() !== userId.toString()) {
       return res.status(403).json({
         success: false,
         message: "Only group owner can delete tasks",

@@ -8,6 +8,7 @@ const HeaderPage = ({
   title,
   description,
   showButton = false,
+  buttonText = "New Task",
   onButtonClick,
   showDateRangePicker = false,
   dateRange,
@@ -70,7 +71,7 @@ const HeaderPage = ({
           className="flex w-full md:w-auto items-center justify-center gap-2 md:py-3 py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg cursor-pointer"
         >
           <Plus />
-          New Task
+          {buttonText}
         </button>
       ) : showDateRangePicker ? (
         <div className="flex flex-row justify-between w-full md:w-auto gap-4">

@@ -1,10 +1,9 @@
 import { google } from "googleapis";
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
+const OAuth2 = google.auth.OAuth2;
 
 dotenv.config();
-
-const OAuth2 = google.auth.OAuth2;
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
@@ -28,10 +27,10 @@ export const sendMailJoinGroup = async (
       auth: {
         type: "OAuth2",
         user: process.env.EMAIL_USER,
-        clientId: CLIENT_ID,
-        clientSecret: CLIENT_SECRET,
-        refreshToken: REFRESH_TOKEN,
-        accessToken: accessToken.token,
+        clientId: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
+        refreshToken: process.env.REFRESH_TOKEN,
+        accessToken: accessToken,
       },
     });
 

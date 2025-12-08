@@ -1,15 +1,15 @@
 import express from "express";
 
 import { authMiddleware } from "../middleware/auth.js";
-import { createGroup } from "../controllers/groupController,js";
-import { getUserGroups } from "../controllers/groupController,js";
-import { getGroupById } from "../controllers/groupController,js";
-import { updateGroup } from "../controllers/groupController,js";
-import { deleteGroup } from "../controllers/groupController,js";
-import { inviteMember } from "../controllers/groupController,js";
-import { joinGroup } from "../controllers/groupController,js";
-import { removeMember } from "../controllers/groupController,js";
-import { leaveGroup } from "../controllers/groupController,js";
+import { createGroup } from "../controllers/groupController.js";
+import { getUserGroups } from "../controllers/groupController.js";
+import { getGroupById } from "../controllers/groupController.js";
+import { updateGroup } from "../controllers/groupController.js";
+import { deleteGroup } from "../controllers/groupController.js";
+import { inviteMember } from "../controllers/groupController.js";
+import { joinGroup } from "../controllers/groupController.js";
+import { removeMember } from "../controllers/groupController.js";
+import { leaveGroup } from "../controllers/groupController.js";
 import {
   createGroupTask,
   deleteGroupTask,

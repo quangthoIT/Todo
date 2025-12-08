@@ -257,7 +257,7 @@ export const inviteMember = async (req, res) => {
     }
 
     // Kiểm tra user đã là thành viên chưa
-    const isAlreadyMember = group.Members.some(
+    const isAlreadyMember = group.members.some(
       (Member) => Member.userId.toString() === invitedUser._id.toString()
     );
 
