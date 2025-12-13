@@ -4,8 +4,11 @@ import { RefreshCw } from "lucide-react";
 import NotificationItem from "./NotificationItem";
 import { Button } from "./ui/button";
 import EmptyStatus from "./EmptyStatus";
+import { useNavigate } from "react-router-dom";
 
 const NotificationCard = ({ notifications, title, onRefresh }) => {
+  const navigate = useNavigate();
+
   if (notifications.length === 0) {
     return (
       <EmptyStatus
@@ -37,7 +40,11 @@ const NotificationCard = ({ notifications, title, onRefresh }) => {
       <CardContent>
         <div className="space-y-2">
           {notifications.map((task) => (
-            <NotificationItem key={task._id} task={task} />
+            <NotificationItem
+              key={task._id}
+              task={task}
+              onClick={() => navigate("/tasks")}
+            />
           ))}
         </div>
       </CardContent>

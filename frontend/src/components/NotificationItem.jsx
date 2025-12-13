@@ -33,7 +33,7 @@ const getTimeRemaining = (dueDate) => {
   if (hours < 12) return `${hours} hours left`;
 };
 
-const NotificationItem = ({ task }) => {
+const NotificationItem = ({ task, onClick }) => {
   const isOverdue =
     new Date(task.dueDate) < new Date() || task.status === "Overdue";
   const timeRemaining = getTimeRemaining(task.dueDate);
@@ -44,6 +44,7 @@ const NotificationItem = ({ task }) => {
 
   return (
     <div
+      onClick={onClick}
       className={`px-2 py-1 md:px-6 md:py-4 rounded-lg hover:shadow-md transition bg-gray-100 dark:bg-gray-800
       `}
     >
