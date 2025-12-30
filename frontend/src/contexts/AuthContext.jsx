@@ -73,7 +73,7 @@ export const AuthProvider = ({ children }) => {
     } else {
       setTimeout(() => setLoading(false), 500);
     }
-  }, []);
+  }, [token]);
 
   return (
     <AuthContext.Provider

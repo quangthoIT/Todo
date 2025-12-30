@@ -46,7 +46,7 @@ const ProfileInfoCard = ({
             variant="default"
             size="lg"
             disabled={loading}
-            className="w-full cursor-not-allowed"
+            className="w-full"
           >
             {loading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
             Update Profile
