@@ -69,9 +69,9 @@ export const AuthProvider = ({ children }) => {
         })
         .then((res) => setUser(res.data.user))
         .catch(() => logout())
-        .finally(() => setTimeout(() => setLoading(false), 500));
+        .finally(() => setTimeout(() => setLoading(false), 200));
     } else {
-      setTimeout(() => setLoading(false), 500);
+      setTimeout(() => setLoading(false), 200);
     }
   }, [token]);
 

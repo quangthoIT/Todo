@@ -39,7 +39,7 @@ const ResetPassword = () => {
     try {
       await api.auth.resetPassword(email, newPassword, otp);
       toast.success("Password reset successfully!");
-      setTimeout(() => navigate("/login"), 2000);
+      setTimeout(() => navigate("/login"), 1000);
     } catch (error) {
       toast.error(error.message || "Failed to reset password");
     } finally {

@@ -102,7 +102,7 @@ const Profile = () => {
         setTimeout(() => {
           logout();
           navigate("/login");
-        }, 500);
+        }, 200);
       }
     } catch (error) {
       toast.error("Failed to delete account");
