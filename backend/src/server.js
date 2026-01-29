@@ -17,11 +17,11 @@ const app = express(); // Khởi tạo server
 if (process.env.NODE_ENV !== "production") {
   app.use(
     cors({
-      origin: "http://localhost:5173",
+      origin: ["http://localhost:5173", "https://todo-fe-iyyx.onrender.com"],
       credentials: true,
       methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
       allowedHeaders: ["Content-Type", "Authorization"],
-    })
+    }),
   );
 }
 
@@ -54,5 +54,5 @@ if (process.env.NODE_ENV === "production") {
 connectDB().then(() =>
   app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
-  })
+  }),
 );
